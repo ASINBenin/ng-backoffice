@@ -4,7 +4,7 @@
         .module('BackofficeApp')
         .controller('BackofficeMainCtrl', [
             '$scope', '$rootScope', '$state', '$mdSidenav', '$mdMedia', 'gettextCatalog', 'UserService',
-            BackofficeMainCtrl
+            'UserProfileService', BackofficeMainCtrl
         ])
         .directive('focusMe', function($timeout) {
           return {
@@ -22,7 +22,8 @@
     /**
      * Main Controller for the Backoffice module
      */
-    function BackofficeMainCtrl($scope, $rootScope, $state, $mdSidenav, $mdMedia, gettextCatalog, UserService) {
+    function BackofficeMainCtrl($scope, $rootScope, $state, $mdSidenav, $mdMedia, gettextCatalog, UserService,
+                                UserProfileService) {
         if (!UserService.isAuthenticated() && !UserService.reauthenticate()) {
             setTimeout(function() {
                 $state.transitionTo('login');
@@ -30,6 +31,11 @@
 
             return;
         }
+
+        $scope.connectedUser = null;
+        UserProfileService.getProfile().then(function (profile) {
+            $scope.connectedUser = profile;
+        });
 
         $scope.changeLanguage = function (lang_id) {
           UserService.setUiLanguage(lang_id);

@@ -1,0 +1,92 @@
+<md-dialog class="dialog-width">
+    <form name="campaignForm">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2 ng-if="!campaign.id" translate>Add a campaign</h2>
+                <h2 ng-if="campaign.id" translate>Edit campaign</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon aria-label="{{ 'Close dialog' | translate }}">close</md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <md-input-container class="md-block">
+                    <label translate>Label</label>
+                    <md-icon>label</md-icon>
+                    <input ng-model="campaign.label" name="label" maxlength="255" required>
+                    <div ng-messages="campaignForm.label.$error">
+                        <div ng-message="required">{{ 'The label may not be empty' | translate }}</div>
+                    </div>
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                    <label translate>Description</label>
+                    <md-icon>description</md-icon>
+                    <textarea ng-model="campaign.description" name="description" rows="3"></textarea>
+                </md-input-container>
+
+                <md-autocomplete
+                        md-no-cache="true"
+                        md-selected-item="campaign.model"
+                        md-search-text="modelSearchText"
+                        md-items="model in searchModels(modelSearchText)"
+                        md-item-text="model.label"
+                        md-min-length="0"
+                        md-input-name="model"
+                        md-floating-label="{{ 'Specific model' | translate }}"
+                        required>
+                    <md-item-template>
+                        <span md-highlight-text="modelSearchText" md-highlight-flags="i">{{ model.label }}</span>
+                    </md-item-template>
+                    <md-not-found>{{ 'No specific model available' | translate }}</md-not-found>
+                </md-autocomplete>
+
+                <div layout="row" layout-xs="column">
+                    <md-input-container flex>
+                        <label translate>Start</label>
+                        <md-datepicker ng-model="campaign.startDate" name="startDate" required></md-datepicker>
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label translate>Response deadline</label>
+                        <md-datepicker ng-model="campaign.responseDeadline" name="responseDeadline"
+                                       md-min-date="campaign.startDate" required></md-datepicker>
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label translate>End</label>
+                        <md-datepicker ng-model="campaign.endDate" name="endDate"
+                                       md-min-date="campaign.responseDeadline" required></md-datepicker>
+                    </md-input-container>
+                </div>
+
+                <md-checkbox ng-model="campaign.isSignatureRequired" class="md-primary">
+                    {{ 'Electronic signature of the report required' | translate }}
+                </md-checkbox>
+
+                <md-subheader>{{ 'Invited entities' | translate }}</md-subheader>
+                <md-chips ng-model="campaign.clients" md-require-match="true" md-autocomplete-snap>
+                    <md-autocomplete
+                            md-no-cache="true"
+                            md-search-text="clientSearchText"
+                            md-items="client in searchClients(clientSearchText)"
+                            md-item-text="client.name"
+                            md-min-length="0"
+                            placeholder="+ {{ 'Invite an entity' | translate }}">
+                        <span md-highlight-text="clientSearchText" md-highlight-flags="i">{{ client.name }}</span>
+                    </md-autocomplete>
+                    <md-chip-template>{{ $chip.name }}</md-chip-template>
+                </md-chips>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()">
+                {{ 'Cancel' | translate }}
+            </md-button>
+            <md-button ng-click="create()" ng-disabled="campaignForm.$invalid || !campaign.model" type="submit" class="md-accent md-hue-3">
+                {{ (campaign.id > 0 ? 'Save' : 'Create') | translate }}
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

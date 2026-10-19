@@ -1,0 +1,90 @@
+<section layout="row" flex layout-fill ng-controller="BackofficeAdminCampaignsCtrl">
+    <md-content flex>
+        <div layout="row" layout-align="start center" class="md-padding">
+            <h2 class="md-title md-padding-right md-padding-left">
+                <span translate>Campaigns</span>
+                <md-button class="md-icon-button md-primary" aria-label="{{ 'New campaign' | translate }}" ng-click="createNewCampaign($event)">
+                    <md-tooltip md-direction="left">{{ 'New campaign' | translate }}</md-tooltip>
+                    <md-icon>add_to_photos</md-icon>
+                </md-button>
+            </h2>
+
+            <form flex name="campaigns.filter.form">
+                <md-input-container class="md-block md-padding-left md-padding-right">
+                    <label><md-icon>search</md-icon> {{ 'Search...' | translate }}</label>
+                    <input ng-model="campaigns.query.filter" ng-model-options="campaigns.filter.options">
+                </md-input-container>
+            </form>
+
+            <md-input-container>
+                <label translate>Status</label>
+                <md-select ng-model="campaigns.query.status" aria-label="{{ 'Status' | translate }}">
+                    <md-option value="all">{{ 'All' | translate }}</md-option>
+                    <md-option value="draft">{{ 'Draft' | translate }}</md-option>
+                    <md-option value="published">{{ 'Published' | translate }}</md-option>
+                    <md-option value="closed">{{ 'Closed' | translate }}</md-option>
+                </md-select>
+            </md-input-container>
+
+            <md-button class="md-icon-button md-primary" ng-click="removeCampaignsFilter()">
+                <md-icon>settings_backup_restore</md-icon>
+            </md-button>
+        </div>
+
+        <md-table-container flex>
+            <table md-table md-progress="campaigns.promise">
+                <thead md-head md-order="campaigns.query.order" md-on-reorder="updateCampaigns">
+                <tr md-row>
+                    <th md-column md-order-by="label"><span translate>Label</span></th>
+                    <th md-column><span translate>Model</span></th>
+                    <th md-column><span translate>Status</span></th>
+                    <th md-column md-order-by="startDate"><span translate>Start</span></th>
+                    <th md-column md-order-by="responseDeadline"><span translate>Response deadline</span></th>
+                    <th md-column md-order-by="endDate"><span translate>End</span></th>
+                    <th md-column><span translate>Entities</span></th>
+                    <th md-column><span translate>Actions</span></th>
+                </tr>
+                </thead>
+
+                <tbody md-body>
+                <tr md-row ng-repeat="campaign in campaigns.items.campaigns">
+                    <td md-cell>{{ campaign.label }}</td>
+                    <td md-cell>{{ campaign.model.label }}</td>
+                    <td md-cell>
+                        <span ng-if="campaign.status === 'draft'" translate>Draft</span>
+                        <span ng-if="campaign.status === 'published'" translate>Published</span>
+                        <span ng-if="campaign.status === 'closed'" translate>Closed</span>
+                    </td>
+                    <td md-cell>{{ campaign.startDate | date:'shortDate' }}</td>
+                    <td md-cell>{{ campaign.responseDeadline | date:'shortDate' }}</td>
+                    <td md-cell>{{ campaign.endDate | date:'shortDate' }}</td>
+                    <td md-cell>{{ campaign.participants.length }}</td>
+                    <td md-cell>
+                        <span ng-if="campaign.status === 'draft'">
+                            <md-button class="md-icon-button md-warn" ng-click="deleteCampaign($event, campaign)">
+                                <md-tooltip>{{ 'Delete' | translate }}</md-tooltip>
+                                <md-icon>delete</md-icon>
+                            </md-button>
+                            <md-button class="md-icon-button md-primary" ng-click="editCampaign($event, campaign)">
+                                <md-tooltip>{{ 'Edit' | translate }}</md-tooltip>
+                                <md-icon>edit</md-icon>
+                            </md-button>
+                            <md-button class="md-icon-button md-primary" ng-click="publishCampaign($event, campaign)">
+                                <md-tooltip>{{ 'Publish' | translate }}</md-tooltip>
+                                <md-icon>send</md-icon>
+                            </md-button>
+                        </span>
+                        <md-button class="md-icon-button md-primary" ng-if="campaign.status === 'published'" ng-click="closeCampaign($event, campaign)">
+                            <md-tooltip>{{ 'Close campaign' | translate }}</md-tooltip>
+                            <md-icon>lock</md-icon>
+                        </md-button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </md-table-container>
+
+        <md-table-pagination md-limit="campaigns.query.limit" md-limit-options="[20, 30, 50, 100]" md-page="campaigns.query.page"
+                             md-total="{{campaigns.items.count}}" md-on-paginate="updateCampaigns" md-page-select md-label="{{paginationLabels}}"></md-table-pagination>
+    </md-content>
+</section>

@@ -516,6 +516,10 @@ msgstr ""
 msgid "Customer admin"
 msgstr ""
 
+#: views/dialogs/create.users.admin.html:52
+msgid "Campaign admin"
+msgstr ""
+
 #: views/dialogs/create.users.admin.html:49
 msgid "Database admin"
 msgstr ""
@@ -2009,4 +2013,85 @@ msgid "Labels"
 msgstr ""
 
 msgid "Residual acceptance"
+msgstr ""
+
+msgid "Campaigns"
+msgstr ""
+
+msgid "New campaign"
+msgstr ""
+
+msgid "Published"
+msgstr ""
+
+msgid "Closed"
+msgstr ""
+
+msgid "Model"
+msgstr ""
+
+msgid "Start"
+msgstr ""
+
+msgid "Response deadline"
+msgstr ""
+
+msgid "End"
+msgstr ""
+
+msgid "Entities"
+msgstr ""
+
+msgid "Add a campaign"
+msgstr ""
+
+msgid "Edit campaign"
+msgstr ""
+
+msgid "Specific model"
+msgstr ""
+
+msgid "No specific model available"
+msgstr ""
+
+msgid "Electronic signature of the report required"
+msgstr ""
+
+msgid "Invited entities"
+msgstr ""
+
+msgid "Invite an entity"
+msgstr ""
+
+msgid "Close campaign"
+msgstr ""
+
+msgid "The campaign has been created successfully."
+msgstr ""
+
+msgid "The campaign has been edited successfully."
+msgstr ""
+
+msgid "Publish the campaign \"{{label}}\"?"
+msgstr ""
+
+msgid "The invited entities will be able to participate. The campaign can no longer be modified and the scales of its model are frozen. This operation is irreversible."
+msgstr ""
+
+msgid "The campaign has been published."
+msgstr ""
+
+msgid "Close the campaign \"{{label}}\"?"
+msgstr ""
+
+msgid "The entities will no longer be able to participate. This operation is irreversible."
+msgstr ""
+
+msgid "The campaign has been closed."
+msgstr ""
+
+msgid "Delete the campaign \"{{label}}\"?"
+msgstr ""
+
+msgid "The campaign has been deleted."
 msgstr ""

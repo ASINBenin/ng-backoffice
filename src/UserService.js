@@ -200,7 +200,7 @@
             };
 
             /**
-             * @param group The group we need to check for permission (superadmin, sysadmin, dbadmin, accadmin)
+             * @param group The group we need to check for permission (superadmin, sysadmin, dbadmin, accadmin, campadmin)
              * @returns {boolean} True if the user has access to elements in the group, false otherwise
              */
             var isAllowed = function (group) {

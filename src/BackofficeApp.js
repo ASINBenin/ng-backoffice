@@ -81,6 +81,14 @@ angular
                 ncyBreadcrumb: {
                     label: '{{"Manage servers"|translate}}'
                 }
+            }).state('main.admin.campaigns', {
+                url: "/campaigns",
+                views: {
+                    "main@main": {templateUrl: "views/campaigns.admin.html"}
+                },
+                ncyBreadcrumb: {
+                    label: '{{"Campaigns"|translate}}'
+                }
             }).state('main.admin.logs', {
                 url: "/logs",
                 views: {

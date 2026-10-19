@@ -1367,6 +1367,10 @@ msgstr "Mot de passe personnalisé"
 msgid "Customer admin"
 msgstr "Administrateur clients"
 
+#: views/dialogs/create.users.admin.html:52
+msgid "Campaign admin"
+msgstr "Administrateur campagnes"
+
 #: ../ng_anr/views/_gettext_caveats.html:99 ../ng_anr/views/anr.layout.html:31
 #: ../ng_anr/views/anr.layout.html:58
 msgid "Dashboard"
@@ -5974,3 +5978,84 @@ msgstr "Libellés"
 
 msgid "Residual acceptance"
 msgstr "Acceptation résiduelle"
+
+msgid "Campaigns"
+msgstr "Campagnes"
+
+msgid "New campaign"
+msgstr "Nouvelle campagne"
+
+msgid "Published"
+msgstr "Publiée"
+
+msgid "Closed"
+msgstr "Clôturée"
+
+msgid "Model"
+msgstr "Modèle"
+
+msgid "Start"
+msgstr "Début"
+
+msgid "Response deadline"
+msgstr "Date limite de réponse"
+
+msgid "End"
+msgstr "Fin"
+
+msgid "Entities"
+msgstr "Entités"
+
+msgid "Add a campaign"
+msgstr "Ajouter une campagne"
+
+msgid "Edit campaign"
+msgstr "Modifier la campagne"
+
+msgid "Specific model"
+msgstr "Modèle spécifique"
+
+msgid "No specific model available"
+msgstr "Aucun modèle spécifique disponible"
+
+msgid "Electronic signature of the report required"
+msgstr "Signature électronique du rapport obligatoire"
+
+msgid "Invited entities"
+msgstr "Entités invitées"
+
+msgid "Invite an entity"
+msgstr "Inviter une entité"
+
+msgid "Close campaign"
+msgstr "Clôturer"
+
+msgid "The campaign has been created successfully."
+msgstr "La campagne a été créée."
+
+msgid "The campaign has been edited successfully."
+msgstr "La campagne a été modifiée."
+
+msgid "Publish the campaign \"{{label}}\"?"
+msgstr "Publier la campagne « {{label}} » ?"
+
+msgid "The invited entities will be able to participate. The campaign can no longer be modified and the scales of its model are frozen. This operation is irreversible."
+msgstr "Les entités invitées pourront participer. La campagne ne sera plus modifiable et les échelles de son modèle seront figées. Cette opération est irréversible."
+
+msgid "The campaign has been published."
+msgstr "La campagne a été publiée."
+
+msgid "Close the campaign \"{{label}}\"?"
+msgstr "Clôturer la campagne « {{label}} » ?"
+
+msgid "The entities will no longer be able to participate. This operation is irreversible."
+msgstr "Les entités ne pourront plus participer. Cette opération est irréversible."
+
+msgid "The campaign has been closed."
+msgstr "La campagne a été clôturée."
+
+msgid "Delete the campaign \"{{label}}\"?"
+msgstr "Supprimer la campagne « {{label}} » ?"
+
+msgid "The campaign has been deleted."
+msgstr "La campagne a été supprimée."
