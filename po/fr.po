@@ -6059,3 +6059,18 @@ msgstr "Supprimer la campagne « {{label}} » ?"
 
 msgid "The campaign has been deleted."
 msgstr "La campagne a été supprimée."
+
+msgid "Renew the entity token"
+msgstr "Renouveler le jeton de l'entité"
+
+msgid "Renew the token of \"{{name}}\"?"
+msgstr "Renouveler le jeton de « {{name}} » ?"
+
+msgid "The current token stops working at once. The deployment service sends the new one to the entity FrontOffice."
+msgstr "Le jeton actuel cesse de fonctionner immédiatement. Le service de déploiement transmet le nouveau au FrontOffice de l'entité."
+
+msgid "Renew"
+msgstr "Renouveler"
+
+msgid "A new token has been sent to the entity FrontOffice."
+msgstr "Un nouveau jeton a été transmis au FrontOffice de l'entité."

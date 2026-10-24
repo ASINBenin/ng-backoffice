@@ -119,6 +119,21 @@
             });
         };
 
+        $scope.renewApiToken = function (ev, client) {
+            var confirm = $mdDialog.confirm()
+                .title(gettextCatalog.getString('Renew the token of "{{name}}"?', {name: client.name}))
+                .textContent(gettextCatalog.getString('The current token stops working at once. The deployment service sends the new one to the entity FrontOffice.'))
+                .targetEvent(ev)
+                .ok(gettextCatalog.getString('Renew'))
+                .cancel(gettextCatalog.getString('Cancel'));
+            $mdDialog.show(confirm).then(function () {
+                ClientService.renewApiToken(client.id, function () {
+                    toastr.success(gettextCatalog.getString('A new token has been sent to the entity FrontOffice.'));
+                });
+            }, function () {
+            });
+        };
+
         $scope.deleteClientMass = function (ev) {
             var outpromise = null;
 

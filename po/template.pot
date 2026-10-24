@@ -2095,3 +2095,18 @@ msgstr ""
 
 msgid "The campaign has been deleted."
 msgstr ""
+
+msgid "Renew the entity token"
+msgstr ""
+
+msgid "Renew the token of \"{{name}}\"?"
+msgstr ""
+
+msgid "The current token stops working at once. The deployment service sends the new one to the entity FrontOffice."
+msgstr ""
+
+msgid "Renew"
+msgstr ""
+
+msgid "A new token has been sent to the entity FrontOffice."
+msgstr ""

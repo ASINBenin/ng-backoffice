@@ -36,12 +36,19 @@
             self.ClientResource.delete({clientId: id}, success, error);
         };
 
+        self.ClientApiTokenResource = $resource('api/clients/:clientId/api-token');
+
+        var renewApiToken = function (id, success, error) {
+            self.ClientApiTokenResource.save({clientId: id}, {}, success, error);
+        };
+
         return {
             getClients: getClients,
             getClient: getClient,
             createClient: createClient,
             deleteClient: deleteClient,
-            updateClient: updateClient
+            updateClient: updateClient,
+            renewApiToken: renewApiToken
         };
     }
 

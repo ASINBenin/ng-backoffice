@@ -57,6 +57,10 @@
                     <td md-cell>
                         <md-button class="md-icon-button md-warn" ng-click="deleteClient($event, client)"><md-icon>delete</md-icon></md-button>
                         <md-button class="md-icon-button md-primary" ng-click="editClient($event, client)"><md-icon>edit</md-icon></md-button>
+                        <md-button class="md-icon-button md-primary" ng-click="renewApiToken($event, client)">
+                            <md-tooltip>{{ 'Renew the entity token' | translate }}</md-tooltip>
+                            <md-icon>vpn_key</md-icon>
+                        </md-button>
                     </td>
                 </tr>
                 </tbody>
