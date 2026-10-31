@@ -115,7 +115,7 @@
         $scope.closeCampaign = function (ev, campaign) {
             confirmAndRun(ev,
                 gettextCatalog.getString('Close the campaign "{{label}}"?', {label: campaign.label}),
-                gettextCatalog.getString('The entities will no longer be able to participate. This operation is irreversible.'),
+                gettextCatalog.getString('The entities will no longer be able to participate or send reports. This operation is irreversible.'),
                 gettextCatalog.getString('Close campaign'),
                 function (success) {
                     AdminCampaignService.closeCampaign(campaign.id, success);

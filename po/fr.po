@@ -6074,3 +6074,30 @@ msgstr "Renouveler"
 
 msgid "A new token has been sent to the entity FrontOffice."
 msgstr "Un nouveau jeton a été transmis au FrontOffice de l'entité."
+
+msgid "The entities will no longer be able to participate or send reports. This operation is irreversible."
+msgstr "Les entités ne pourront plus participer ni envoyer de rapport. Cette opération est irréversible."
+
+msgid "Submitted reports"
+msgstr "Rapports soumis"
+
+msgid "Outside any campaign"
+msgstr "Hors campagne"
+
+msgid "No report has been submitted."
+msgstr "Aucun rapport n'a été soumis."
+
+msgid "Entity"
+msgstr "Entité"
+
+msgid "Analysis"
+msgstr "Analyse"
+
+msgid "Size"
+msgstr "Taille"
+
+msgid "Signed"
+msgstr "Signé"
+
+msgid "Download"
+msgstr "Télécharger"

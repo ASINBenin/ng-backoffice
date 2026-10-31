@@ -1,0 +1,64 @@
+<section layout="row" flex layout-fill ng-controller="BackofficeAdminSubmissionsCtrl">
+    <md-content flex>
+        <div layout="row" layout-align="start center" class="md-padding">
+            <h2 class="md-title md-padding-right md-padding-left" translate>Submitted reports</h2>
+
+            <md-input-container flex class="md-block md-padding-left md-padding-right">
+                <label><md-icon>search</md-icon> {{ 'Search...' | translate }}</label>
+                <input ng-model="search">
+            </md-input-container>
+
+            <md-input-container>
+                <label translate>Campaign</label>
+                <md-select ng-model="selectedCampaign" ng-change="updateSubmissions()" aria-label="{{ 'Campaign' | translate }}">
+                    <md-option value="all">{{ 'All' | translate }}</md-option>
+                    <md-option value="none">{{ 'Outside any campaign' | translate }}</md-option>
+                    <md-option ng-repeat="campaign in campaigns" ng-value="campaign.id">{{ campaign.label }}</md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+
+        <md-progress-linear ng-if="isLoading" md-mode="indeterminate"></md-progress-linear>
+        <p class="md-padding" ng-if="!isLoading && submissions.length === 0" translate>No report has been submitted.</p>
+
+        <md-table-container flex ng-if="submissions.length > 0">
+            <table md-table>
+                <thead md-head>
+                <tr md-row>
+                    <th md-column><span translate>Entity</span></th>
+                    <th md-column><span translate>Campaign</span></th>
+                    <th md-column><span translate>Analysis</span></th>
+                    <th md-column><span translate>Version</span></th>
+                    <th md-column><span translate>Date</span></th>
+                    <th md-column><span translate>Author</span></th>
+                    <th md-column><span translate>Size</span></th>
+                    <th md-column><span translate>Signed</span></th>
+                    <th md-column></th>
+                </tr>
+                </thead>
+
+                <tbody md-body>
+                <tr md-row ng-repeat="submission in submissions | filter:matchesSearch">
+                    <td md-cell>{{ submission.clientName }}</td>
+                    <td md-cell>
+                        <span ng-if="submission.campaignLabel">{{ submission.campaignLabel }}</span>
+                        <em ng-if="!submission.campaignLabel" translate>Outside any campaign</em>
+                    </td>
+                    <td md-cell>{{ submission.analysisLabel }}</td>
+                    <td md-cell>{{ submission.version }}</td>
+                    <td md-cell>{{ submission.submittedAt | date:'dd/MM/yyyy HH:mm' }}</td>
+                    <td md-cell>{{ submission.submittedBy }}</td>
+                    <td md-cell>{{ formatSize(submission.fileSize) }}</td>
+                    <td md-cell><md-icon ng-if="submission.isSigned">check</md-icon></td>
+                    <td md-cell>
+                        <md-button class="md-icon-button md-primary" ng-click="download(submission)">
+                            <md-tooltip>{{ 'Download' | translate }}</md-tooltip>
+                            <md-icon>file_download</md-icon>
+                        </md-button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </md-table-container>
+    </md-content>
+</section>
