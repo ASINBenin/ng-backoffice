@@ -6101,3 +6101,27 @@ msgstr "Signé"
 
 msgid "Download"
 msgstr "Télécharger"
+
+msgid "Appreciation"
+msgstr "Appréciation"
+
+msgid "Appreciate"
+msgstr "Apprécier"
+
+msgid "Insufficient"
+msgstr "Insuffisant"
+
+msgid "To improve"
+msgstr "À améliorer"
+
+msgid "Satisfactory"
+msgstr "Satisfaisant"
+
+msgid "Very satisfactory"
+msgstr "Très satisfaisant"
+
+msgid "Choose a level"
+msgstr "Choisissez un niveau"
+
+msgid "The appreciation has been saved."
+msgstr "L'appréciation a été enregistrée."

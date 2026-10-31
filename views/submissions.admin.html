@@ -33,6 +33,7 @@
                     <th md-column><span translate>Author</span></th>
                     <th md-column><span translate>Size</span></th>
                     <th md-column><span translate>Signed</span></th>
+                    <th md-column><span translate>Appreciation</span></th>
                     <th md-column></th>
                 </tr>
                 </thead>
@@ -51,6 +52,20 @@
                     <td md-cell>{{ formatSize(submission.fileSize) }}</td>
                     <td md-cell><md-icon ng-if="submission.isSigned">check</md-icon></td>
                     <td md-cell>
+                        <span ng-if="!submission.appreciation">-</span>
+                        <div ng-if="submission.appreciation" ng-switch="submission.appreciation.level">
+                            <strong ng-switch-when="insufficient" translate>Insufficient</strong>
+                            <strong ng-switch-when="to_improve" translate>To improve</strong>
+                            <strong ng-switch-when="satisfactory" translate>Satisfactory</strong>
+                            <strong ng-switch-when="very_satisfactory" translate>Very satisfactory</strong>
+                            <div class="md-caption" ng-if="submission.appreciation.comment">{{ submission.appreciation.comment }}</div>
+                        </div>
+                    </td>
+                    <td md-cell>
+                        <md-button class="md-icon-button md-primary" ng-click="appreciate(submission, $event)">
+                            <md-tooltip>{{ 'Appreciate' | translate }}</md-tooltip>
+                            <md-icon>rate_review</md-icon>
+                        </md-button>
                         <md-button class="md-icon-button md-primary" ng-click="download(submission)">
                             <md-tooltip>{{ 'Download' | translate }}</md-tooltip>
                             <md-icon>file_download</md-icon>

@@ -28,9 +28,17 @@
                 });
         };
 
+        /**
+         * Gives or corrects the appreciation of a report version: { level, comment }.
+         */
+        var appreciateSubmission = function (id, appreciation) {
+            return $http.put('api/entity-submissions/' + id + '/appreciation', appreciation);
+        };
+
         return {
             getSubmissions: getSubmissions,
-            downloadSubmission: downloadSubmission
+            downloadSubmission: downloadSubmission,
+            appreciateSubmission: appreciateSubmission
         };
     }
 
