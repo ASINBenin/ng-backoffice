@@ -24,7 +24,8 @@
                 <md-input-container class="md-block">
                     <label translate>Description</label>
                     <md-icon>description</md-icon>
-                    <textarea ng-model="campaign.description" name="description" rows="3"></textarea>
+                    <textarea ng-model="campaign.description" name="description" rows="3" maxlength="2000"></textarea>
+                    <div class="hint">{{ (campaign.description || '').length }} / 2000</div>
                 </md-input-container>
 
                 <md-autocomplete
