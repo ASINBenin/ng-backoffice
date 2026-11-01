@@ -14,10 +14,10 @@
                 <md-input-container class="md-block">
                     <label translate>Level</label>
                     <md-select ng-model="appreciation.level" name="level" required>
-                        <md-option value="insufficient" translate>Insufficient</md-option>
-                        <md-option value="to_improve" translate>To improve</md-option>
-                        <md-option value="satisfactory" translate>Satisfactory</md-option>
-                        <md-option value="very_satisfactory" translate>Very satisfactory</md-option>
+                        <md-option value="insufficient">{{ 'Insufficient' | translate }}</md-option>
+                        <md-option value="to_improve">{{ 'To improve' | translate }}</md-option>
+                        <md-option value="satisfactory">{{ 'Satisfactory' | translate }}</md-option>
+                        <md-option value="very_satisfactory">{{ 'Very satisfactory' | translate }}</md-option>
                     </md-select>
                     <div ng-messages="appreciationForm.level.$error">
                         <div ng-message="required">{{ 'Choose a level' | translate }}</div>
@@ -31,8 +31,8 @@
             </div>
         </md-dialog-content>
         <md-dialog-actions>
-            <md-button ng-click="cancel()" translate>Cancel</md-button>
-            <md-button type="submit" class="md-primary md-raised" ng-disabled="appreciationForm.$invalid || isSaving" translate>Save</md-button>
+            <md-button ng-click="cancel()">{{ 'Cancel' | translate }}</md-button>
+            <md-button type="submit" class="md-primary md-raised" ng-disabled="appreciationForm.$invalid || isSaving">{{ 'Save' | translate }}</md-button>
         </md-dialog-actions>
     </form>
 </md-dialog>
