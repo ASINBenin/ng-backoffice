@@ -59,7 +59,11 @@
                     <td md-cell>{{ campaign.responseDeadline | date:'shortDate' }}</td>
                     <td md-cell>{{ campaign.endDate | date:'shortDate' }}</td>
                     <td md-cell>{{ campaign.participants.length }}</td>
-                    <td md-cell>
+                    <td md-cell style="white-space: nowrap">
+                        <md-button class="md-icon-button md-primary" ui-sref="main.admin.campaign({campaignId: campaign.id})" aria-label="{{ 'Open the campaign' | translate }}">
+                            <md-tooltip>{{ 'Open the campaign' | translate }}</md-tooltip>
+                            <md-icon>visibility</md-icon>
+                        </md-button>
                         <span ng-if="campaign.status === 'draft'">
                             <md-button class="md-icon-button md-warn" ng-click="deleteCampaign($event, campaign)">
                                 <md-tooltip>{{ 'Delete' | translate }}</md-tooltip>

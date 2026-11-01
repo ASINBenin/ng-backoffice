@@ -89,13 +89,22 @@ angular
                 ncyBreadcrumb: {
                     label: '{{"Campaigns"|translate}}'
                 }
+            }).state('main.admin.campaign', {
+                url: "/campaigns/:campaignId",
+                views: {
+                    "main@main": {templateUrl: "views/campaign.detail.admin.html"}
+                },
+                ncyBreadcrumb: {
+                    label: '{{"Campaign"|translate}}',
+                    parent: 'main.admin.campaigns'
+                }
             }).state('main.admin.submissions', {
                 url: "/submissions",
                 views: {
                     "main@main": {templateUrl: "views/submissions.admin.html"}
                 },
                 ncyBreadcrumb: {
-                    label: '{{"Submitted reports"|translate}}'
+                    label: '{{"Reports outside any campaign"|translate}}'
                 }
             }).state('main.admin.logs', {
                 url: "/logs",

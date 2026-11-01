@@ -1,0 +1,52 @@
+<md-progress-linear ng-if="isLoading" md-mode="indeterminate"></md-progress-linear>
+<p style="padding: 16px 24px" ng-if="!isLoading && submissions.length === 0" translate>No report has been submitted.</p>
+
+<md-table-container flex ng-if="submissions.length > 0">
+    <table md-table>
+        <thead md-head>
+        <tr md-row>
+            <th md-column><span translate>Entity</span></th>
+            <th md-column><span translate>Analysis</span></th>
+            <th md-column><span translate>Version</span></th>
+            <th md-column><span translate>Date</span></th>
+            <th md-column><span translate>Author</span></th>
+            <th md-column><span translate>Size</span></th>
+            <th md-column><span translate>Signed</span></th>
+            <th md-column><span translate>Appreciation</span></th>
+            <th md-column><span translate>Actions</span></th>
+        </tr>
+        </thead>
+
+        <tbody md-body>
+        <tr md-row ng-repeat="submission in submissions | filter:matchesSearch">
+            <td md-cell>{{ submission.clientName }}</td>
+            <td md-cell>{{ submission.analysisLabel }}</td>
+            <td md-cell>{{ submission.version }}</td>
+            <td md-cell>{{ submission.submittedAt | date:'dd/MM/yyyy HH:mm' }}</td>
+            <td md-cell>{{ submission.submittedBy }}</td>
+            <td md-cell>{{ formatSize(submission.fileSize) }}</td>
+            <td md-cell><md-icon ng-if="submission.isSigned">check</md-icon></td>
+            <td md-cell>
+                <span ng-if="!submission.appreciation">-</span>
+                <div ng-if="submission.appreciation" ng-switch="submission.appreciation.level">
+                    <strong ng-switch-when="insufficient">{{ 'Insufficient' | translate }}</strong>
+                    <strong ng-switch-when="to_improve">{{ 'To improve' | translate }}</strong>
+                    <strong ng-switch-when="satisfactory">{{ 'Satisfactory' | translate }}</strong>
+                    <strong ng-switch-when="very_satisfactory">{{ 'Very satisfactory' | translate }}</strong>
+                    <div class="md-caption" ng-if="submission.appreciation.comment">{{ submission.appreciation.comment }}</div>
+                </div>
+            </td>
+            <td md-cell style="white-space: nowrap">
+                <md-button class="md-icon-button md-primary" ng-click="appreciate(submission, $event)" aria-label="{{ 'Appreciate' | translate }}">
+                    <md-tooltip md-direction="top">{{ 'Appreciate' | translate }}</md-tooltip>
+                    <md-icon>rate_review</md-icon>
+                </md-button>
+                <md-button class="md-icon-button md-primary" ng-click="download(submission)" aria-label="{{ 'Download' | translate }}">
+                    <md-tooltip md-direction="top">{{ 'Download' | translate }}</md-tooltip>
+                    <md-icon>file_download</md-icon>
+                </md-button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</md-table-container>

@@ -1,0 +1,111 @@
+<md-card md-theme="light" layout="column" class="main-card" ng-controller="BackofficeAdminCampaignDetailCtrl">
+    <md-toolbar class="md-table-toolbar md-default">
+        <div class="md-toolbar-tools">
+            <md-button class="md-icon-button" ui-sref="main.admin.campaigns" aria-label="{{ 'Back to the campaigns' | translate }}">
+                <md-tooltip md-direction="bottom">{{ 'Back to the campaigns' | translate }}</md-tooltip>
+                <md-icon>arrow_back</md-icon>
+            </md-button>
+            <h2 class="md-title">{{ campaign.label }}</h2>
+            <span flex></span>
+            <span ng-switch="campaign.status">
+                <strong ng-switch-when="draft">{{ 'Draft' | translate }}</strong>
+                <strong ng-switch-when="published">{{ 'Published' | translate }}</strong>
+                <strong ng-switch-when="closed">{{ 'Closed' | translate }}</strong>
+            </span>
+        </div>
+    </md-toolbar>
+
+    <md-progress-linear ng-if="isLoading" md-mode="indeterminate"></md-progress-linear>
+
+    <md-tabs ng-if="campaign" md-border-bottom flex>
+        <md-tab label="{{ 'Information' | translate }}">
+            <md-content layout="column" style="padding: 24px">
+                <div layout="row" style="margin-bottom: 12px">
+                    <strong flex="25" translate>Description</strong>
+                    <span flex style="white-space: pre-wrap; overflow-wrap: anywhere">{{ campaign.description || '-' }}</span>
+                </div>
+                <div layout="row" style="margin-bottom: 12px">
+                    <strong flex="25" translate>Model</strong><span flex>{{ campaign.model.label }}</span>
+                </div>
+                <div layout="row" style="margin-bottom: 12px">
+                    <strong flex="25" translate>Start</strong><span flex>{{ campaign.startDate | date:'dd/MM/yyyy' }}</span>
+                </div>
+                <div layout="row" style="margin-bottom: 12px">
+                    <strong flex="25" translate>Response deadline</strong><span flex>{{ campaign.responseDeadline | date:'dd/MM/yyyy' }}</span>
+                </div>
+                <div layout="row" style="margin-bottom: 12px">
+                    <strong flex="25" translate>End</strong><span flex>{{ campaign.endDate | date:'dd/MM/yyyy' }}</span>
+                </div>
+                <div layout="row" style="margin-bottom: 12px">
+                    <strong flex="25" translate>Signature required</strong>
+                    <span flex>{{ (campaign.isSignatureRequired ? 'Yes' : 'No') | translate }}</span>
+                </div>
+                <div layout="row" style="margin-bottom: 12px" ng-if="campaign.publishedAt">
+                    <strong flex="25" translate>Published on</strong><span flex>{{ campaign.publishedAt | date:'dd/MM/yyyy HH:mm' }}</span>
+                </div>
+                <div layout="row" style="margin-bottom: 12px" ng-if="campaign.closedAt">
+                    <strong flex="25" translate>Closed on</strong><span flex>{{ campaign.closedAt | date:'dd/MM/yyyy HH:mm' }}</span>
+                </div>
+                <div layout="row" style="margin-bottom: 12px">
+                    <strong flex="25" translate>Created by</strong><span flex>{{ campaign.creator }}</span>
+                </div>
+            </md-content>
+        </md-tab>
+
+        <md-tab label="{{ 'Entities' | translate }} ({{ entities.length }})">
+            <md-content>
+                <md-table-container>
+                    <table md-table>
+                        <thead md-head>
+                        <tr md-row>
+                            <th md-column><span translate>Entity</span></th>
+                            <th md-column><span translate>Participation</span></th>
+                            <th md-column><span translate>Reports sent</span></th>
+                            <th md-column><span translate>Last report</span></th>
+                            <th md-column><span translate>Appreciation</span></th>
+                        </tr>
+                        </thead>
+                        <tbody md-body>
+                        <tr md-row ng-repeat="entity in entities track by entity.clientId">
+                            <td md-cell>{{ entity.name }}</td>
+                            <td md-cell>
+                                <span ng-if="entity.status === 'participating'">{{ 'Participating' | translate }}</span>
+                                <span ng-if="entity.status !== 'participating'">{{ 'Invited' | translate }}</span>
+                            </td>
+                            <td md-cell>{{ entity.reportsCount }}</td>
+                            <td md-cell>
+                                <span ng-if="!entity.lastSubmission">-</span>
+                                <span ng-if="entity.lastSubmission">
+                                    {{ 'Version' | translate }} {{ entity.lastSubmission.version }},
+                                    {{ entity.lastSubmission.submittedAt | date:'dd/MM/yyyy HH:mm' }}
+                                </span>
+                            </td>
+                            <td md-cell>
+                                <span ng-if="!entity.lastSubmission.appreciation">-</span>
+                                <span ng-if="entity.lastSubmission.appreciation" ng-switch="entity.lastSubmission.appreciation.level">
+                                    <strong ng-switch-when="insufficient">{{ 'Insufficient' | translate }}</strong>
+                                    <strong ng-switch-when="to_improve">{{ 'To improve' | translate }}</strong>
+                                    <strong ng-switch-when="satisfactory">{{ 'Satisfactory' | translate }}</strong>
+                                    <strong ng-switch-when="very_satisfactory">{{ 'Very satisfactory' | translate }}</strong>
+                                </span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </md-table-container>
+            </md-content>
+        </md-tab>
+
+        <md-tab label="{{ 'Reports' | translate }} ({{ submissions.length }})">
+            <md-content>
+                <div layout="row" layout-align="start center" style="padding: 8px 24px 0">
+                    <md-input-container flex class="md-block">
+                        <label><md-icon>search</md-icon> {{ 'Search...' | translate }}</label>
+                        <input ng-model="search">
+                    </md-input-container>
+                </div>
+                <div ng-include="'views/submissions.table.admin.html'"></div>
+            </md-content>
+        </md-tab>
+    </md-tabs>
+</md-card>

@@ -6125,3 +6125,48 @@ msgstr "Choisissez un niveau"
 
 msgid "The appreciation has been saved."
 msgstr "L'appréciation a été enregistrée."
+
+msgid "Reports outside any campaign"
+msgstr "Rapports hors campagne"
+
+msgid "Campaign"
+msgstr "Campagne"
+
+msgid "Back to the campaigns"
+msgstr "Retour aux campagnes"
+
+msgid "Open the campaign"
+msgstr "Ouvrir la campagne"
+
+msgid "Information"
+msgstr "Informations"
+
+msgid "Reports"
+msgstr "Rapports"
+
+msgid "Reports sent"
+msgstr "Rapports envoyés"
+
+msgid "Last report"
+msgstr "Dernier rapport"
+
+msgid "Participation"
+msgstr "Participation"
+
+msgid "Participating"
+msgstr "Participe"
+
+msgid "Invited"
+msgstr "Invitée"
+
+msgid "Published on"
+msgstr "Publiée le"
+
+msgid "Closed on"
+msgstr "Clôturée le"
+
+msgid "Created by"
+msgstr "Créée par"
+
+msgid "Signature required"
+msgstr "Signature requise"
