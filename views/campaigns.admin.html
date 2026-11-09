@@ -31,6 +31,48 @@
             </md-button>
         </div>
 
+        <!-- Vue d'ensemble : un clic sur un statut filtre la liste -->
+        <div layout="row" layout-wrap class="campaign-overview" ng-if="overview">
+            <div class="campaign-kpi-cell" flex-xs="50" flex-gt-xs="20">
+                <button type="button" class="campaign-kpi campaign-kpi-grey campaign-kpi-clickable" ng-click="campaigns.query.status = 'draft'"
+                        ng-class="{'campaign-kpi-selected': campaigns.query.status === 'draft'}">
+                    <md-icon>edit</md-icon>
+                    <div class="campaign-kpi-value">{{ overview.campaigns.draft }}</div>
+                    <div class="campaign-kpi-label" translate>Drafts</div>
+                </button>
+            </div>
+            <div class="campaign-kpi-cell" flex-xs="50" flex-gt-xs="20">
+                <button type="button" class="campaign-kpi campaign-kpi-blue campaign-kpi-clickable" ng-click="campaigns.query.status = 'published'"
+                        ng-class="{'campaign-kpi-selected': campaigns.query.status === 'published'}">
+                    <md-icon>flag</md-icon>
+                    <div class="campaign-kpi-value">{{ overview.campaigns.published }}</div>
+                    <div class="campaign-kpi-label" translate>Published campaigns</div>
+                </button>
+            </div>
+            <div class="campaign-kpi-cell" flex-xs="50" flex-gt-xs="20">
+                <button type="button" class="campaign-kpi campaign-kpi-green campaign-kpi-clickable" ng-click="campaigns.query.status = 'closed'"
+                        ng-class="{'campaign-kpi-selected': campaigns.query.status === 'closed'}">
+                    <md-icon>lock_outline</md-icon>
+                    <div class="campaign-kpi-value">{{ overview.campaigns.closed }}</div>
+                    <div class="campaign-kpi-label" translate>Closed campaigns</div>
+                </button>
+            </div>
+            <div class="campaign-kpi-cell" flex-xs="50" flex-gt-xs="20">
+                <div class="campaign-kpi" ng-class="overview.lateEntities > 0 ? 'campaign-kpi-orange' : 'campaign-kpi-grey'">
+                    <md-icon>error_outline</md-icon>
+                    <div class="campaign-kpi-value">{{ overview.lateEntities }}</div>
+                    <div class="campaign-kpi-label" translate>Late entities</div>
+                </div>
+            </div>
+            <div class="campaign-kpi-cell" flex-xs="50" flex-gt-xs="20">
+                <div class="campaign-kpi" ng-class="overview.pendingAppreciations > 0 ? 'campaign-kpi-orange' : 'campaign-kpi-grey'">
+                    <md-icon>rate_review</md-icon>
+                    <div class="campaign-kpi-value">{{ overview.pendingAppreciations }}</div>
+                    <div class="campaign-kpi-label" translate>Reports to appreciate</div>
+                </div>
+            </div>
+        </div>
+
         <md-table-container flex>
             <table md-table md-progress="campaigns.promise">
                 <thead md-head md-order="campaigns.query.order" md-on-reorder="updateCampaigns">

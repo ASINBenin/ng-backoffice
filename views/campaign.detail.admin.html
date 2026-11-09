@@ -12,6 +12,11 @@
                 <strong ng-switch-when="published">{{ 'Published' | translate }}</strong>
                 <strong ng-switch-when="closed">{{ 'Closed' | translate }}</strong>
             </span>
+            <md-button class="md-icon-button" ng-if="campaign.status === 'published'" ng-click="extendDates($event)"
+                       aria-label="{{ 'Postpone the dates' | translate }}">
+                <md-tooltip md-direction="bottom">{{ 'Postpone the dates' | translate }}</md-tooltip>
+                <md-icon>event</md-icon>
+            </md-button>
         </div>
     </md-toolbar>
 
@@ -54,6 +59,12 @@
 
         <md-tab label="{{ 'Entities' | translate }} ({{ entities.length }})">
             <md-content>
+                <div layout="row" style="padding: 8px 16px 0" ng-if="campaign.status === 'published'">
+                    <span flex></span>
+                    <md-button class="md-accent md-hue-3 md-raised" ng-click="inviteEntities($event)">
+                        <md-icon>person_add</md-icon> {{ 'Invite entities' | translate }}
+                    </md-button>
+                </div>
                 <md-table-container>
                     <table md-table>
                         <thead md-head>
@@ -70,7 +81,8 @@
                             <td md-cell>{{ entity.name }}</td>
                             <td md-cell>
                                 <span ng-if="entity.status === 'participating'">{{ 'Participating' | translate }}</span>
-                                <span ng-if="entity.status !== 'participating'">{{ 'Invited' | translate }}</span>
+                                <span ng-if="entity.status === 'invited'">{{ 'Invited' | translate }}</span>
+                                <strong ng-if="entity.status === 'late'" style="color: #e65100">{{ 'Late' | translate }}</strong>
                             </td>
                             <td md-cell>{{ entity.reportsCount }}</td>
                             <td md-cell>
@@ -105,6 +117,83 @@
                     </md-input-container>
                 </div>
                 <div ng-include="'views/submissions.table.admin.html'"></div>
+            </md-content>
+        </md-tab>
+
+        <md-tab label="{{ 'Statistics' | translate }}">
+            <md-content class="md-padding campaign-stats" ng-if="stats">
+                <!-- Chiffres clés : la barre donne la part des entités invitées -->
+                <div layout="row" layout-wrap>
+                    <div class="campaign-kpi-cell" flex-xs="50" flex-gt-xs="25">
+                        <div class="campaign-kpi campaign-kpi-blue">
+                            <md-icon>people</md-icon>
+                            <div class="campaign-kpi-value">{{ stats.entitiesCount }}</div>
+                            <div class="campaign-kpi-label" translate>Invited entities</div>
+                        </div>
+                    </div>
+                    <div class="campaign-kpi-cell" flex-xs="50" flex-gt-xs="25">
+                        <div class="campaign-kpi campaign-kpi-blue">
+                            <md-icon>play_circle_outline</md-icon>
+                            <div class="campaign-kpi-value">{{ percent(stats.started, stats.entitiesCount) }} %</div>
+                            <div class="campaign-kpi-label">{{ 'Started' | translate }} ({{ stats.started }} / {{ stats.entitiesCount }})</div>
+                            <md-progress-linear md-mode="determinate" value="{{ percent(stats.started, stats.entitiesCount) }}"></md-progress-linear>
+                        </div>
+                    </div>
+                    <div class="campaign-kpi-cell" flex-xs="50" flex-gt-xs="25">
+                        <div class="campaign-kpi campaign-kpi-green">
+                            <md-icon>assignment_turned_in</md-icon>
+                            <div class="campaign-kpi-value">{{ percent(stats.progress.reported, stats.entitiesCount) }} %</div>
+                            <div class="campaign-kpi-label">{{ 'With a report' | translate }} ({{ stats.progress.reported }} / {{ stats.entitiesCount }})</div>
+                            <md-progress-linear md-mode="determinate" value="{{ percent(stats.progress.reported, stats.entitiesCount) }}"></md-progress-linear>
+                        </div>
+                    </div>
+                    <div class="campaign-kpi-cell" flex-xs="50" flex-gt-xs="25">
+                        <div class="campaign-kpi" ng-class="stats.progress.late > 0 ? 'campaign-kpi-orange' : 'campaign-kpi-grey'">
+                            <md-icon>error_outline</md-icon>
+                            <div class="campaign-kpi-value">{{ stats.progress.late }}</div>
+                            <div class="campaign-kpi-label" translate>Late entities</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div layout="row" layout-wrap class="campaign-details">
+                    <span class="campaign-detail">
+                        <md-icon>description</md-icon>
+                        {{ 'Versions received' | translate }} : {{ stats.reports.versionsCount }}<span ng-if="campaign.isSignatureRequired"> · {{ 'Signed versions' | translate }} : {{ stats.reports.signedCount }}</span>
+                    </span>
+                    <span class="campaign-detail">
+                        <md-icon>schedule</md-icon>
+                        {{ 'Started after the expected date' | translate }} : {{ stats.delays.lateStarts }}
+                    </span>
+                    <span class="campaign-detail">
+                        <md-icon>event_busy</md-icon>
+                        {{ 'First report after the end' | translate }} : {{ stats.delays.lateReports }}
+                    </span>
+                </div>
+
+                <div layout="row" layout-xs="column" layout-wrap>
+                    <div class="campaign-chart-cell" flex-gt-md="33" flex-gt-xs="50" flex="100">
+                        <div class="campaign-chart">
+                            <h3 class="md-subhead" translate>Progress of the entities</h3>
+                            <div class="campaign-chart-canvas" ng-if="stats.entitiesCount > 0"><canvas monarc-chart="charts.progress"></canvas></div>
+                            <p class="campaign-chart-empty" ng-if="stats.entitiesCount === 0" translate>No data yet.</p>
+                        </div>
+                    </div>
+                    <div class="campaign-chart-cell" flex-gt-md="33" flex-gt-xs="50" flex="100">
+                        <div class="campaign-chart">
+                            <h3 class="md-subhead" translate>Appreciation of the latest report version</h3>
+                            <div class="campaign-chart-canvas" ng-if="stats.progress.reported > 0"><canvas monarc-chart="charts.appreciations"></canvas></div>
+                            <p class="campaign-chart-empty" ng-if="stats.progress.reported === 0" translate>No data yet.</p>
+                        </div>
+                    </div>
+                    <div class="campaign-chart-cell" flex-gt-md="33" flex="100">
+                        <div class="campaign-chart">
+                            <h3 class="md-subhead" translate>Evolution since the start</h3>
+                            <div class="campaign-chart-canvas" ng-if="stats.started > 0"><canvas monarc-chart="charts.timeline"></canvas></div>
+                            <p class="campaign-chart-empty" ng-if="stats.started === 0" translate>No data yet.</p>
+                        </div>
+                    </div>
+                </div>
             </md-content>
         </md-tab>
     </md-tabs>

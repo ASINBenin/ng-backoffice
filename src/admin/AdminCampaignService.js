@@ -48,6 +48,33 @@
             self.CampaignStatusResource.save({campaignId: id, action: 'close'}, {}, success, error);
         };
 
+        /**
+         * New response deadline and end date of a published campaign: they can only be postponed.
+         */
+        var extendCampaignDates = function (id, responseDeadline, endDate, success, error) {
+            self.CampaignStatusResource.save({campaignId: id, action: 'dates'}, {
+                responseDeadline: toDateString(responseDeadline),
+                endDate: toDateString(endDate)
+            }, success, error);
+        };
+
+        self.StatisticsResource = $resource('api/campaign-statistics/:campaignId', {}, {
+            'query': {isArray: false}
+        });
+
+        var getStatisticsOverview = function () {
+            return self.StatisticsResource.query().$promise;
+        };
+
+        var getCampaignStatistics = function (id) {
+            return self.StatisticsResource.query({campaignId: id}).$promise;
+        };
+
+        var addCampaignParticipants = function (id, clientIds, success, error) {
+            self.CampaignStatusResource.save({campaignId: id, action: 'participants'}, {clientIds: clientIds},
+                success, error);
+        };
+
         var getSelectableClients = function (params) {
             return self.CampaignClientResource.query(params).$promise;
         };
@@ -55,6 +82,17 @@
         var getSelectableModels = function (params) {
             return self.CampaignModelResource.query(params).$promise;
         };
+
+        // The API exchanges dates as YYYY-MM-DD, the date pickers as local dates
+        function toDate(value) {
+            var parts = value.split('-');
+
+            return new Date(parts[0], parts[1] - 1, parts[2]);
+        }
+
+        function toDateString(date) {
+            return date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+        }
 
         return {
             getCampaigns: getCampaigns,
@@ -64,8 +102,14 @@
             deleteCampaign: deleteCampaign,
             publishCampaign: publishCampaign,
             closeCampaign: closeCampaign,
+            extendCampaignDates: extendCampaignDates,
+            addCampaignParticipants: addCampaignParticipants,
+            getStatisticsOverview: getStatisticsOverview,
+            getCampaignStatistics: getCampaignStatistics,
             getSelectableClients: getSelectableClients,
-            getSelectableModels: getSelectableModels
+            getSelectableModels: getSelectableModels,
+            toDate: toDate,
+            toDateString: toDateString
         };
     }
 

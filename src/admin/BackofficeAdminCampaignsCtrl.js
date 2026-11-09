@@ -19,6 +19,10 @@
             $scope.campaigns.promise.then(function (data) {
                 $scope.campaigns.items = data;
             });
+            // The overview follows the publications and closures made from this page
+            AdminCampaignService.getStatisticsOverview().then(function (overview) {
+                $scope.overview = overview;
+            });
         };
 
         $scope.removeCampaignsFilter = function () {
@@ -136,49 +140,39 @@
             );
         };
 
+        function toCampaignForm(data) {
+            return {
+                id: data.id,
+                label: data.label,
+                description: data.description,
+                model: data.model,
+                startDate: AdminCampaignService.toDate(data.startDate),
+                responseDeadline: AdminCampaignService.toDate(data.responseDeadline),
+                endDate: AdminCampaignService.toDate(data.endDate),
+                isSignatureRequired: data.isSignatureRequired,
+                clients: data.participants.map(function (participant) {
+                    return participant.client;
+                })
+            };
+        }
+
+        function toCampaignParams(form) {
+            return {
+                id: form.id,
+                label: form.label,
+                description: form.description,
+                modelId: form.model.id,
+                startDate: AdminCampaignService.toDateString(form.startDate),
+                responseDeadline: AdminCampaignService.toDateString(form.responseDeadline),
+                endDate: AdminCampaignService.toDateString(form.endDate),
+                isSignatureRequired: form.isSignatureRequired,
+                clientIds: form.clients.map(function (client) {
+                    return client.id;
+                })
+            };
+        }
+
         TableHelperService.watchSearch($scope, 'campaigns.query.filter', $scope.campaigns.query, $scope.updateCampaigns);
-    }
-
-    function toDate(value) {
-        var parts = value.split('-');
-
-        return new Date(parts[0], parts[1] - 1, parts[2]);
-    }
-
-    function toDateString(date) {
-        return date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
-    }
-
-    function toCampaignForm(data) {
-        return {
-            id: data.id,
-            label: data.label,
-            description: data.description,
-            model: data.model,
-            startDate: toDate(data.startDate),
-            responseDeadline: toDate(data.responseDeadline),
-            endDate: toDate(data.endDate),
-            isSignatureRequired: data.isSignatureRequired,
-            clients: data.participants.map(function (participant) {
-                return participant.client;
-            })
-        };
-    }
-
-    function toCampaignParams(form) {
-        return {
-            id: form.id,
-            label: form.label,
-            description: form.description,
-            modelId: form.model.id,
-            startDate: toDateString(form.startDate),
-            responseDeadline: toDateString(form.responseDeadline),
-            endDate: toDateString(form.endDate),
-            isSignatureRequired: form.isSignatureRequired,
-            clientIds: form.clients.map(function (client) {
-                return client.id;
-            })
-        };
     }
 
     function CreateCampaignDialogCtrl($scope, $mdDialog, AdminCampaignService, campaign) {

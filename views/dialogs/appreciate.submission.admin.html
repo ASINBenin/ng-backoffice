@@ -24,10 +24,10 @@
                     </div>
                 </md-input-container>
 
-                <md-input-container class="md-block">
-                    <label translate>Comment</label>
-                    <textarea ng-model="appreciation.comment" name="comment" rows="5" maxlength="5000"></textarea>
-                </md-input-container>
+                <div>
+                    <label class="md-caption" translate>Comment</label>
+                    <div monarc-rich-text ng-model="appreciation.comment"></div>
+                </div>
             </div>
         </md-dialog-content>
         <md-dialog-actions>

@@ -1,0 +1,38 @@
+<md-dialog class="dialog-width">
+    <form name="datesForm">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2 translate>Postpone the dates</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon aria-label="{{ 'Close dialog' | translate }}">close</md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <p class="md-caption" translate>A date can only be postponed. The invited entities receive the new dates by email.</p>
+                <div layout="row" layout-xs="column">
+                    <md-input-container flex>
+                        <label translate>Response deadline</label>
+                        <md-datepicker ng-model="dates.responseDeadline" name="responseDeadline"
+                                       md-min-date="dates.minResponseDeadline" required></md-datepicker>
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label translate>End</label>
+                        <md-datepicker ng-model="dates.endDate" name="endDate"
+                                       md-min-date="dates.minEndDate > dates.responseDeadline ? dates.minEndDate : dates.responseDeadline"
+                                       required></md-datepicker>
+                    </md-input-container>
+                </div>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()">{{ 'Cancel' | translate }}</md-button>
+            <md-button ng-click="save()" ng-disabled="datesForm.$invalid" type="submit" class="md-accent md-hue-3">
+                {{ 'Save' | translate }}
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

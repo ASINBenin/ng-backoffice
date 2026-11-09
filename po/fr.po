@@ -5998,7 +5998,7 @@ msgid "Start"
 msgstr "Début"
 
 msgid "Response deadline"
-msgstr "Date limite de réponse"
+msgstr "Date de démarrage attendue"
 
 msgid "End"
 msgstr "Fin"
@@ -6048,9 +6048,6 @@ msgstr "La campagne a été publiée."
 msgid "Close the campaign \"{{label}}\"?"
 msgstr "Clôturer la campagne « {{label}} » ?"
 
-msgid "The entities will no longer be able to participate. This operation is irreversible."
-msgstr "Les entités ne pourront plus participer. Cette opération est irréversible."
-
 msgid "The campaign has been closed."
 msgstr "La campagne a été clôturée."
 
@@ -6077,12 +6074,6 @@ msgstr "Un nouveau jeton a été transmis au FrontOffice de l'entité."
 
 msgid "The entities will no longer be able to participate or send reports. This operation is irreversible."
 msgstr "Les entités ne pourront plus participer ni envoyer de rapport. Cette opération est irréversible."
-
-msgid "Submitted reports"
-msgstr "Rapports soumis"
-
-msgid "Outside any campaign"
-msgstr "Hors campagne"
 
 msgid "No report has been submitted."
 msgstr "Aucun rapport n'a été soumis."
@@ -6170,3 +6161,138 @@ msgstr "Créée par"
 
 msgid "Signature required"
 msgstr "Signature requise"
+
+msgid "Postpone the dates"
+msgstr "Repousser les dates"
+
+msgid "A date can only be postponed. The invited entities receive the new dates by email."
+msgstr "Une date peut seulement être repoussée. Les entités invitées reçoivent les nouvelles dates par courriel."
+
+msgid "The dates have been postponed and the entities informed."
+msgstr "Les dates ont été repoussées et les entités informées."
+
+msgid "Invite"
+msgstr "Inviter"
+
+msgid "Late"
+msgstr "En retard"
+
+msgid "Invite entities"
+msgstr "Inviter des entités"
+
+msgid "The entities have been invited."
+msgstr "Les entités ont été invitées."
+
+msgid "The invited entities get the dates of the campaign and receive the invitation by email. They can participate until the end of the campaign."
+msgstr "Les entités invitées reçoivent les dates de la campagne et l'invitation par courriel. Elles peuvent participer jusqu'à la fin de la campagne."
+
+msgid "Statistics"
+msgstr "Statistiques"
+
+msgid "To start"
+msgstr "À démarrer"
+
+msgid "Analysis in progress"
+msgstr "Analyse en cours"
+
+msgid "Report sent"
+msgstr "Rapport envoyé"
+
+msgid "Not appreciated"
+msgstr "Non appréciée"
+
+msgid "Entities started"
+msgstr "Entités ayant démarré"
+
+msgid "Entities with a report"
+msgstr "Entités ayant envoyé un rapport"
+
+msgid "Started"
+msgstr "Ont démarré"
+
+msgid "With a report"
+msgstr "Ont envoyé un rapport"
+
+msgid "Versions received"
+msgstr "Versions reçues"
+
+msgid "Signed versions"
+msgstr "Versions signées"
+
+msgid "No data yet."
+msgstr "Pas encore de données."
+
+msgid "Late entities"
+msgstr "Entités en retard"
+
+msgid "Started after the expected date"
+msgstr "Démarrages après la date attendue"
+
+msgid "First report after the end"
+msgstr "Premiers rapports après la fin"
+
+msgid "Progress of the entities"
+msgstr "Avancement des entités"
+
+msgid "Appreciation of the latest report version"
+msgstr "Appréciation de la dernière version du rapport"
+
+msgid "Evolution since the start"
+msgstr "Évolution depuis le début"
+
+msgid "Drafts"
+msgstr "Brouillons"
+
+msgid "Published campaigns"
+msgstr "Campagnes publiées"
+
+msgid "Closed campaigns"
+msgstr "Campagnes clôturées"
+
+msgid "Reports to appreciate"
+msgstr "Rapports à apprécier"
+
+msgid "Heading"
+msgstr "Titre"
+
+msgid "Subheading"
+msgstr "Sous-titre"
+
+msgid "Bold"
+msgstr "Gras"
+
+msgid "Italic"
+msgstr "Italique"
+
+msgid "Underline"
+msgstr "Souligné"
+
+msgid "Strikethrough"
+msgstr "Barré"
+
+msgid "Numbered list"
+msgstr "Liste numérotée"
+
+msgid "Bulleted list"
+msgstr "Liste à puces"
+
+msgid "Quote"
+msgstr "Citation"
+
+msgid "Link"
+msgstr "Lien"
+
+msgid "Remove the formatting"
+msgstr "Effacer la mise en forme"
+
+msgid "Enter the link:"
+msgstr "Saisissez le lien :"
+
+msgid "Open the link:"
+msgstr "Ouvrir le lien :"
+
+msgid "Remove"
+msgstr "Retirer"
+
+msgid "Campaigns management"
+msgstr "Gestion des campagnes"

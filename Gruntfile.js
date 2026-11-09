@@ -49,6 +49,9 @@ module.exports = function (grunt) {
                     'node_modules/papaparse/papaparse.min.js',
                     'node_modules/jschardet/dist/jschardet.min.js',
                     'node_modules/angular-loading-bar/build/loading-bar.min.js',
+                    'node_modules/angular-sanitize/angular-sanitize.min.js',
+                    'node_modules/quill/dist/quill.js',
+                    'node_modules/chart.js/dist/chart.umd.js',
                 ],
                 dest: publicJsDir + '/angular-common-libs.js',
                 nonull: true
@@ -62,6 +65,7 @@ module.exports = function (grunt) {
                     'node_modules/angular-toastr/dist/angular-toastr.min.css',
                     'node_modules/flag-icons/css/flag-icons.min.css',
                     'node_modules/angular-loading-bar/build/loading-bar.css',
+                    'node_modules/quill/dist/quill.snow.css',
                 ],
                 dest: publicCssDir + '/angular-common-libs.css',
                 nonull: true

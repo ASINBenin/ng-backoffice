@@ -66,9 +66,11 @@
             $scope.save = function () {
                 $scope.isSaving = true;
                 appreciateSubmission(submission.id, $scope.appreciation).then(function () {
+                    // Shown at once; the version cleaned by the server is read at the next loading
                     submission.appreciation = {
                         level: $scope.appreciation.level,
-                        comment: $scope.appreciation.comment || null
+                        comment: $scope.appreciation.comment || null,
+                        appreciatedAt: new Date().toISOString()
                     };
                     toastr.success(gettextCatalog.getString('The appreciation has been saved.'));
                     $mdDialog.hide();

@@ -61,9 +61,12 @@
                     </md-input-container>
                 </div>
 
-                <md-checkbox ng-model="campaign.isSignatureRequired" class="md-primary">
-                    {{ 'Electronic signature of the report required' | translate }}
-                </md-checkbox>
+                <md-subheader>{{ 'Options' | translate }}</md-subheader>
+                <div layout="column">
+                    <md-checkbox ng-model="campaign.isSignatureRequired" class="md-primary">
+                        {{ 'Electronic signature of the report required' | translate }}
+                    </md-checkbox>
+                </div>
 
                 <md-subheader>{{ 'Invited entities' | translate }}</md-subheader>
                 <md-chips ng-model="campaign.clients" md-require-match="true" md-autocomplete-snap>

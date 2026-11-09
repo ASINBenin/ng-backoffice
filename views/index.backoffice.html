@@ -15,8 +15,10 @@
     <md-list>
 
         <md-list-item ui-sref="main.kb_mgmt" ui-sref-active="active" ng-show="isAllowed('dbadmin')">
-            <md-icon>local_library</md-icon>
-            <p>{{ 'KB management' | translate }}</p>
+            <p class="sidenav-item">
+                <md-icon>local_library</md-icon>
+                {{ 'KB management' | translate }}
+            </p>
         </md-list-item>
 
         <md-list-item ui-sref="main.kb_mgmt.info_risk" ui-sref-active="active" ng-show="isAllowed('dbadmin')">
@@ -75,6 +77,32 @@
             </p>
         </md-list-item>
 
+        <md-divider ng-show="isAllowed('dbadmin') && isAllowed('campadmin')"></md-divider>
+
+        <!-- The campaign screens have no common parent state: the title is lit by the list of its pages -->
+        <md-list-item ui-sref="main.admin.campaigns" ng-show="isAllowed('campadmin')"
+                      ui-sref-active="{'active': ['main.admin.campaigns', 'main.admin.campaign', 'main.admin.submissions']}">
+            <p class="sidenav-item">
+                <md-icon>flag</md-icon>
+                {{ 'Campaigns management' | translate }}
+            </p>
+        </md-list-item>
+
+        <md-list-item ui-sref="main.admin.campaigns" ng-show="isAllowed('campadmin')"
+                      ui-sref-active="{'active': ['main.admin.campaigns', 'main.admin.campaign']}">
+            <p class="sidenav-sub-item">
+                <md-icon>list</md-icon>
+                {{ 'Campaigns' | translate }}
+            </p>
+        </md-list-item>
+
+        <md-list-item ui-sref="main.admin.submissions" ui-sref-active="active" ng-show="isAllowed('campadmin')">
+            <p class="sidenav-sub-item">
+                <md-icon>description</md-icon>
+                {{ 'Reports outside any campaign' | translate }}
+            </p>
+        </md-list-item>
+
         <md-divider></md-divider>
 
         <p class="md-caption txtcenter">Copyright 2012 - {{ currentYear }} <a href="https://www.nc3.lu" target="_blank" rel="noopener noreferrer">NC3</a></p>
@@ -96,7 +124,7 @@
         </h1>
         <span flex></span>
 
-        <md-menu ng-show="isAllowed('sysadmin') || isAllowed('superadmin') || isAllowed('accadmin') || isAllowed('campadmin')">
+        <md-menu ng-show="isAllowed('sysadmin') || isAllowed('superadmin') || isAllowed('accadmin')">
             <md-button class="md-icon-button" ng-click="openToolbarMenu($mdMenu.open, $event)">
                 <md-tooltip>{{ "Administration" | translate }}</md-tooltip>
                 <md-icon md-menu-origin>settings</md-icon>
@@ -121,18 +149,6 @@
                 <md-menu-item ng-show="isAllowed('accadmin')">
                     <md-button ui-sref="main.client_mgmt">
                         <md-icon>assignment_ind</md-icon> {{ 'Client management' | translate }}
-                    </md-button>
-                </md-menu-item>
-
-                <md-menu-item ng-show="isAllowed('campadmin')">
-                    <md-button ui-sref="main.admin.campaigns">
-                        <md-icon>flag</md-icon> {{ 'Campaigns' | translate }}
-                    </md-button>
-                </md-menu-item>
-
-                <md-menu-item ng-show="isAllowed('campadmin')">
-                    <md-button ui-sref="main.admin.submissions">
-                        <md-icon>description</md-icon> {{ 'Reports outside any campaign' | translate }}
                     </md-button>
                 </md-menu-item>
 

@@ -18,7 +18,8 @@
         </thead>
 
         <tbody md-body>
-        <tr md-row ng-repeat="submission in submissions | filter:matchesSearch">
+        <tr md-row ng-repeat-start="submission in submissions | filter:matchesSearch"
+            ng-class="{'appreciation-row-with-comment': submission.appreciation.comment}">
             <td md-cell>{{ submission.clientName }}</td>
             <td md-cell>{{ submission.analysisLabel }}</td>
             <td md-cell>{{ submission.version }}</td>
@@ -28,13 +29,13 @@
             <td md-cell><md-icon ng-if="submission.isSigned">check</md-icon></td>
             <td md-cell>
                 <span ng-if="!submission.appreciation">-</span>
-                <div ng-if="submission.appreciation" ng-switch="submission.appreciation.level">
-                    <strong ng-switch-when="insufficient">{{ 'Insufficient' | translate }}</strong>
-                    <strong ng-switch-when="to_improve">{{ 'To improve' | translate }}</strong>
-                    <strong ng-switch-when="satisfactory">{{ 'Satisfactory' | translate }}</strong>
-                    <strong ng-switch-when="very_satisfactory">{{ 'Very satisfactory' | translate }}</strong>
-                    <div class="md-caption" ng-if="submission.appreciation.comment">{{ submission.appreciation.comment }}</div>
-                </div>
+                <span ng-if="submission.appreciation" ng-switch="submission.appreciation.level"
+                      class="appreciation-level appreciation-level-{{ submission.appreciation.level }}">
+                    <span ng-switch-when="insufficient">{{ 'Insufficient' | translate }}</span>
+                    <span ng-switch-when="to_improve">{{ 'To improve' | translate }}</span>
+                    <span ng-switch-when="satisfactory">{{ 'Satisfactory' | translate }}</span>
+                    <span ng-switch-when="very_satisfactory">{{ 'Very satisfactory' | translate }}</span>
+                </span>
             </td>
             <td md-cell style="white-space: nowrap">
                 <md-button class="md-icon-button md-primary" ng-click="appreciate(submission, $event)" aria-label="{{ 'Appreciate' | translate }}">
@@ -45,6 +46,15 @@
                     <md-tooltip md-direction="top">{{ 'Download' | translate }}</md-tooltip>
                     <md-icon>file_download</md-icon>
                 </md-button>
+            </td>
+        </tr>
+        <!-- The comment of the appreciation is read in place, under its version -->
+        <tr md-row ng-repeat-end ng-if="submission.appreciation.comment" class="appreciation-comment-row">
+            <td md-cell colspan="9">
+                <div class="md-caption">
+                    {{ 'Comment' | translate }} - {{ submission.appreciation.appreciatedAt | date:'dd/MM/yyyy HH:mm' }}<span ng-if="submission.appreciatedBy">, {{ submission.appreciatedBy }}</span>
+                </div>
+                <div class="appreciation-comment" ng-bind-html="submission.appreciation.comment"></div>
             </td>
         </tr>
         </tbody>

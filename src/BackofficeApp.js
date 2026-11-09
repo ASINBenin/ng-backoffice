@@ -1,7 +1,7 @@
 angular
     .module('BackofficeApp', ['ngMaterial', 'ngAnimate', 'toastr', 'ui.router', 'gettext', 'ngResource',
         'LocalStorageModule', 'md.data.table', 'ncy-angular-breadcrumb', 'ngFileUpload',
-        'ui.tree', 'ngMessages', 'AnrModule'])
+        'ui.tree', 'ngMessages', 'ngSanitize', 'AnrModule'])
     .config(['$mdThemingProvider', '$stateProvider', '$urlRouterProvider', 'localStorageServiceProvider',
              '$httpProvider', '$breadcrumbProvider', '$provide', 'gettext', '$mdAriaProvider', '$locationProvider',
         function ($mdThemingProvider, $stateProvider, $urlRouterProvider, localStorageServiceProvider,
