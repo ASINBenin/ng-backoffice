@@ -103,6 +103,15 @@
             </p>
         </md-list-item>
 
+        <md-divider ng-show="isAllowed('superadmin')"></md-divider>
+
+        <md-list-item ui-sref="main.admin.statistics" ui-sref-active="active" ng-show="isAllowed('superadmin')">
+            <p class="sidenav-item">
+                <md-icon>insert_chart</md-icon>
+                {{ 'Statistics' | translate }}
+            </p>
+        </md-list-item>
+
         <md-divider></md-divider>
 
         <p class="md-caption txtcenter">Copyright 2012 - {{ currentYear }} <a href="https://www.nc3.lu" target="_blank" rel="noopener noreferrer">NC3</a></p>

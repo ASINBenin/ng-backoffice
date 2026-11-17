@@ -6296,3 +6296,161 @@ msgstr "Retirer"
 
 msgid "Campaigns management"
 msgstr "Gestion des campagnes"
+
+msgid "Share of the risks of all the analyses of the entity. The levels follow the thresholds of each analysis."
+msgstr "Part des risques de toutes les analyses de l'entité. Les niveaux suivent les seuils propres à chaque analyse."
+
+msgid "Collected on"
+msgstr "Collecté le"
+
+msgid "Low"
+msgstr "Faibles"
+
+msgid "Medium"
+msgstr "Moyens"
+
+msgid "High"
+msgstr "Élevés"
+
+msgid "Low risks"
+msgstr "Risques faibles"
+
+msgid "Medium risks"
+msgstr "Risques moyens"
+
+msgid "High risks"
+msgstr "Risques élevés"
+
+msgid "Compliance by entity"
+msgstr "Conformité par entité"
+
+msgid "Ranking"
+msgstr "Classement"
+
+msgid "Current level"
+msgstr "Niveau actuel"
+
+msgid "Target level"
+msgstr "Niveau cible"
+
+msgid "Current level by category"
+msgstr "Niveau actuel par catégorie"
+
+msgid "Compared entities"
+msgstr "Entités comparées"
+
+msgid "No entity selected."
+msgstr "Aucune entité sélectionnée."
+
+msgid "Analyses"
+msgstr "Analyses"
+
+msgid "Average of the analyses of the entity that use this referential."
+msgstr "Moyenne des analyses de l'entité qui utilisent ce référentiel."
+
+msgid "No selected entity uses this referential."
+msgstr "Aucune entité sélectionnée n'utilise ce référentiel."
+
+msgid "Entities concerned"
+msgstr "Entités concernées"
+
+msgid "Indicator"
+msgstr "Indicateur"
+
+msgid "Share of high current risks"
+msgstr "Part des risques élevés actuels"
+
+msgid "Share of high residual risks"
+msgstr "Part des risques élevés résiduels"
+
+msgid "Evolution"
+msgstr "Évolution"
+
+msgid "Risks by level"
+msgstr "Risques par niveau"
+
+msgid "Compliance with a referential"
+msgstr "Conformité à un référentiel"
+
+msgid "Evolution over time"
+msgstr "Évolution dans le temps"
+
+msgid "Period"
+msgstr "Période"
+
+msgid "1 month"
+msgstr "1 mois"
+
+msgid "3 months"
+msgstr "3 mois"
+
+msgid "6 months"
+msgstr "6 mois"
+
+msgid "1 year"
+msgstr "1 an"
+
+msgid "Value recorded each day over the last month."
+msgstr "Valeur relevée chaque jour sur le dernier mois."
+
+msgid "Value recorded each week over the last 3 months."
+msgstr "Valeur relevée chaque semaine sur les 3 derniers mois."
+
+msgid "Value recorded every 2 weeks over the last 6 months."
+msgstr "Valeur relevée toutes les 2 semaines sur les 6 derniers mois."
+
+msgid "Value recorded each month over the last year."
+msgstr "Valeur relevée chaque mois sur la dernière année."
+
+msgid "Vertical Bar Chart"
+msgstr "Histogramme vertical"
+
+msgid "Values"
+msgstr "Valeurs"
+
+msgid "Share (%)"
+msgstr "Part (%)"
+
+msgid "Number"
+msgstr "Nombre"
+
+msgid "Stacked"
+msgstr "Empilé"
+
+msgid "Grouped"
+msgstr "Groupé"
+
+
+msgid "No risk of this type in the selected entities."
+msgstr "Aucun risque de ce type dans les entités sélectionnées."
+
+msgid "In number, an entity with more analyses naturally has more risks."
+msgstr "En nombre, une entité qui a plus d'analyses a naturellement plus de risques."
+
+msgid "Display by"
+msgstr "Afficher par"
+
+
+msgid "Order by"
+msgstr "Trier par"
+
+msgid "Most shared"
+msgstr "Les plus partagés"
+
+msgid "Descending value"
+msgstr "Valeur décroissante"
+
+msgid "Ascending value"
+msgstr "Valeur croissante"
+
+msgid "The first 10"
+msgstr "Les 10 premiers"
+
+msgid "Value by entity"
+msgstr "Valeur par entité"
+
+msgid "Elements of the common knowledge base found in the analyses of the entities. The values depend on the scales of each analysis."
+msgstr "Éléments de la base de connaissances commune présents dans les analyses des entités. Les valeurs dépendent des échelles de chaque analyse."
+
+msgid "Maximum risk"
+msgstr "Risque maximal"

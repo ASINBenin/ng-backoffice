@@ -59,8 +59,10 @@ md-switch.no-margin {
 }
 
 /* Campaign statistics: figures and charts */
-.campaign-stats {
+/* Marge autour des cartes : 16px de chaque côté, les cellules portant déjà 12px à droite et 16px en bas */
+.campaign-stats.md-padding {
   background-color: #f5f5f5;
+  padding: 16px 4px 0 16px;
 }
 .campaign-kpi-cell,
 .campaign-chart-cell {
@@ -160,6 +162,40 @@ md-switch.no-margin {
 .campaign-chart-canvas {
   position: relative;
   height: 240px;
+}
+.inter-entity-filters {
+  padding: 0 12px 16px 0;
+}
+.inter-entity-filters .md-caption {
+  margin: 0;
+}
+.inter-entity-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.inter-entity-table th {
+  padding: 8px 16px;
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 12px;
+  font-weight: 700;
+  text-align: left;
+  white-space: nowrap;
+}
+.inter-entity-table td {
+  padding: 12px 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  color: rgba(0, 0, 0, 0.87);
+}
+.inter-entity-table .numeric {
+  text-align: right;
+}
+.inter-entity-table .txtcenter {
+  text-align: center;
+}
+.inter-entity-category {
+  min-width: 280px;
+  white-space: normal;
 }
 .campaign-chart-empty {
   margin: 0;

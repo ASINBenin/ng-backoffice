@@ -1,0 +1,307 @@
+<md-card md-theme="light" layout="column" class="main-card" ng-controller="BackofficeAdminInterEntityStatisticsCtrl">
+    <div layout="row" layout-align="start center" class="md-padding">
+        <h2 class="md-title md-padding-right md-padding-left" translate>Statistics</h2>
+        <md-input-container class="md-block md-padding-left md-padding-right" flex-gt-sm="50" flex ng-if="entityNames.length > 0">
+            <label translate>Compared entities</label>
+            <md-select ng-model="filters.entities" multiple ng-change="updateAll()">
+                <md-option ng-repeat="name in entityNames" ng-value="name">{{ name }}</md-option>
+            </md-select>
+        </md-input-container>
+    </div>
+
+    <md-progress-linear ng-if="isLoading" md-mode="indeterminate"></md-progress-linear>
+
+    <p class="campaign-chart-empty" ng-if="!isLoading && entityNames.length === 0" translate>No data yet.</p>
+
+    <div ng-if="!isLoading && entityNames.length > 0" layout="column">
+
+        <md-tabs md-border-bottom md-dynamic-height>
+            <md-tab ng-repeat="riskTab in [{type: 'informational', label: 'Information risks'}, {type: 'operational', label: 'Operational risks'}]"
+                    label="{{ riskTab.label | translate }}">
+                <md-content class="md-padding campaign-stats">
+                    <p class="campaign-chart-empty" ng-if="selectedRisks.length === 0" translate>No entity selected.</p>
+                    <p class="campaign-chart-empty" ng-if="selectedRisks.length > 0 && !charts[riskTab.type].hasRisks" translate>No risk of this type in the selected entities.</p>
+
+                    <div ng-if="selectedRisks.length > 0 && charts[riskTab.type].hasRisks">
+                        <div class="inter-entity-filters">
+                            <div layout="row" layout-xs="column" layout-align="start center">
+                                <h3 class="md-title md-padding-right" translate>Risks by level</h3>
+                                <md-input-container class="md-block md-padding-right" flex-gt-sm="20" flex="100">
+                                    <label translate>Chart type</label>
+                                    <md-select ng-model="filters.riskChart.orientation" ng-change="updateRisks()">
+                                        <md-option value="horizontal">{{ 'Horizontal Bar Chart' | translate }}</md-option>
+                                        <md-option value="vertical">{{ 'Vertical Bar Chart' | translate }}</md-option>
+                                    </md-select>
+                                </md-input-container>
+                                <md-input-container class="md-block md-padding-right" flex-gt-sm="15" flex="100">
+                                    <label translate>Values</label>
+                                    <md-select ng-model="filters.riskChart.unit" ng-change="updateRisks()">
+                                        <md-option value="percent">{{ 'Share (%)' | translate }}</md-option>
+                                        <md-option value="count">{{ 'Number' | translate }}</md-option>
+                                    </md-select>
+                                </md-input-container>
+                                <md-radio-group ng-model="filters.riskChart.mode" ng-change="updateRisks()" layout="row">
+                                    <md-radio-button value="stacked">{{ 'Stacked' | translate }}</md-radio-button>
+                                    <md-radio-button value="grouped">{{ 'Grouped' | translate }}</md-radio-button>
+                                </md-radio-group>
+                            </div>
+                            <p class="md-caption" translate>Share of the risks of all the analyses of the entity. The levels follow the thresholds of each analysis.</p>
+                            <p class="md-caption" ng-if="filters.riskChart.unit === 'count'" translate>In number, an entity with more analyses naturally has more risks.</p>
+                        </div>
+
+                        <div layout="row" layout-xs="column" layout-wrap>
+                            <div class="campaign-chart-cell" flex-gt-sm="50" flex="100" ng-repeat="state in [{key: 'current', label: 'Current risks'}, {key: 'residual', label: 'Residual risks'}]">
+                                <div class="campaign-chart">
+                                    <div layout="row" layout-align="start center">
+                                        <h3 class="md-subhead" flex>{{ state.label | translate }}</h3>
+                                        <md-button class="md-icon-button" aria-label="{{ 'Export (PNG)' | translate }}"
+                                                   ng-click="exportChart('chart-' + riskTab.type + '-' + state.key, riskTab.type + '-' + state.key)">
+                                            <md-tooltip>{{ 'Export (PNG)' | translate }}</md-tooltip>
+                                            <md-icon class="md-warn">file_download</md-icon>
+                                        </md-button>
+                                    </div>
+                                    <div class="campaign-chart-canvas" ng-style="riskChartHeight()">
+                                        <canvas id="chart-{{ riskTab.type }}-{{ state.key }}" monarc-chart="charts[riskTab.type][state.key]"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="campaign-chart-cell">
+                            <md-table-container class="campaign-chart">
+                                <table class="inter-entity-table">
+                                    <thead>
+                                    <tr>
+                                        <th rowspan="2"><span translate>Entity</span></th>
+                                        <th rowspan="2" class="numeric"><span translate>Analyses</span></th>
+                                        <th rowspan="2"><span translate>Collected on</span></th>
+                                        <th colspan="4" class="txtcenter"><span translate>Current risks</span></th>
+                                        <th colspan="4" class="txtcenter"><span translate>Residual risks</span></th>
+                                    </tr>
+                                    <tr>
+                                        <th class="numeric" ng-repeat-start="state in ['current', 'residual']"><span translate>Total</span></th>
+                                        <th class="numeric"><span translate>Low</span></th>
+                                        <th class="numeric"><span translate>Medium</span></th>
+                                        <th class="numeric" ng-repeat-end><span translate>High</span></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="row in selectedRisks">
+                                        <td><strong>{{ row.entity }}</strong></td>
+                                        <td class="numeric">{{ row.analysesCount }}</td>
+                                        <td>{{ row.date | date:'dd/MM/yyyy' }}</td>
+                                        <td class="numeric" ng-repeat-start="state in ['current', 'residual']">{{ row.shares[state][riskTab.type].total }}</td>
+                                        <td class="numeric">{{ row.shares[state][riskTab.type].low.percent }} % ({{ row.shares[state][riskTab.type].low.count }})</td>
+                                        <td class="numeric">{{ row.shares[state][riskTab.type].medium.percent }} % ({{ row.shares[state][riskTab.type].medium.count }})</td>
+                                        <td class="numeric" ng-repeat-end>{{ row.shares[state][riskTab.type].high.percent }} % ({{ row.shares[state][riskTab.type].high.count }})</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </md-table-container>
+                        </div>
+                    </div>
+                </md-content>
+            </md-tab>
+
+            <md-tab label="{{ 'Compliance' | translate }}">
+                <md-content class="md-padding campaign-stats">
+                    <p class="campaign-chart-empty" ng-if="referentials.length === 0" translate>No data yet.</p>
+
+                    <div ng-if="referentials.length > 0">
+                        <div class="inter-entity-filters">
+                            <div layout="row" layout-xs="column" layout-align="start center">
+                                <h3 class="md-title md-padding-right" translate>Compliance with a referential</h3>
+                                <md-input-container class="md-block" flex-gt-sm="40" flex="100">
+                                    <label translate>Referential</label>
+                                    <md-select ng-model="filters.referentialUuid" ng-change="updateCompliance()">
+                                        <md-option ng-repeat="referential in referentials" ng-value="referential.uuid">{{ referential.label }}</md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
+                            <p class="md-caption" translate>Average of the analyses of the entity that use this referential.</p>
+                        </div>
+
+                        <p class="campaign-chart-empty" ng-if="!compliance" translate>No selected entity uses this referential.</p>
+
+                        <div ng-if="compliance">
+                            <div layout="row" layout-xs="column" layout-wrap>
+                                <div class="campaign-chart-cell" flex-gt-sm="50" flex="100">
+                                    <div class="campaign-chart">
+                                        <h3 class="md-subhead" translate>Compliance by entity</h3>
+                                        <div class="campaign-chart-canvas" ng-style="chartHeight(compliance.ranking.length)"><canvas monarc-chart="charts.compliance"></canvas></div>
+                                    </div>
+                                </div>
+                                <div class="campaign-chart-cell" flex-gt-sm="50" flex="100">
+                                    <md-table-container class="campaign-chart">
+                                        <h3 class="md-subhead" translate>Ranking</h3>
+                                        <table class="inter-entity-table">
+                                            <thead>
+                                            <tr>
+                                                <th class="numeric">#</th>
+                                                <th><span translate>Entity</span></th>
+                                                <th class="numeric"><span translate>Analyses</span></th>
+                                                <th class="numeric"><span translate>Current level</span></th>
+                                                <th class="numeric"><span translate>Target level</span></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr ng-repeat="row in compliance.ranking">
+                                                <td class="numeric">{{ $index + 1 }}</td>
+                                                <td><strong>{{ row.entity }}</strong></td>
+                                                <td class="numeric">{{ row.analysesCount }}</td>
+                                                <td class="numeric">{{ row.current }} %</td>
+                                                <td class="numeric">{{ row.target }} %</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </md-table-container>
+                                </div>
+                            </div>
+
+                            <div class="campaign-chart-cell">
+                                <md-table-container class="campaign-chart">
+                                    <h3 class="md-subhead" translate>Current level by category</h3>
+                                    <table class="inter-entity-table">
+                                        <thead>
+                                        <tr>
+                                            <th><span translate>Category</span></th>
+                                            <th class="numeric" ng-repeat="row in compliance.rows">{{ row.entity }}</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="category in compliance.categories">
+                                            <td class="inter-entity-category">{{ category.label }}</td>
+                                            <td class="numeric" ng-repeat="value in category.values track by $index"
+                                                title="{{ value ? ('Target level' | translate) + ' : ' + value.target + ' %' : '' }}">{{ value ? value.current + ' %' : '-' }}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </md-table-container>
+                            </div>
+                        </div>
+                    </div>
+                </md-content>
+            </md-tab>
+
+            <md-tab ng-repeat="tab in [{key: 'threats', label: 'Threats', column: 'Threat', rate: 'Probability'}, {key: 'vulnerabilities', label: 'Vulnerabilities', column: 'Vulnerability', rate: 'Qualification'}]"
+                    label="{{ tab.label | translate }}">
+                <md-content class="md-padding campaign-stats">
+                    <p class="campaign-chart-empty" ng-if="knowledgeBaseComparison[tab.key].rows.length === 0" translate>No data yet.</p>
+
+                    <div ng-if="knowledgeBaseComparison[tab.key].rows.length > 0">
+                        <div class="inter-entity-filters">
+                            <div layout="row" layout-xs="column" layout-align="start center">
+                                <h3 class="md-title md-padding-right">{{ tab.label | translate }}</h3>
+                                <md-input-container class="md-block md-padding-right" flex-gt-sm="25" flex="100">
+                                    <label translate>Display by</label>
+                                    <md-select ng-model="filters.knowledgeBase[tab.key].displayBy" ng-change="updateKnowledgeBase()">
+                                        <md-option value="maxRisk">{{ 'Maximum risk' | translate }}</md-option>
+                                        <md-option value="risksCount">{{ 'Occurrence' | translate }}</md-option>
+                                        <md-option value="averageRate">{{ tab.rate | translate }}</md-option>
+                                    </md-select>
+                                </md-input-container>
+                                <md-input-container class="md-block" flex-gt-sm="25" flex="100">
+                                    <label translate>Order by</label>
+                                    <md-select ng-model="filters.knowledgeBase[tab.key].order" ng-change="updateKnowledgeBase()">
+                                        <md-option value="shared">{{ 'Most shared' | translate }}</md-option>
+                                        <md-option value="descending">{{ 'Descending value' | translate }}</md-option>
+                                        <md-option value="ascending">{{ 'Ascending value' | translate }}</md-option>
+                                        <md-option value="label">{{ 'Label' | translate }}</md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
+                            <p class="md-caption" translate>Elements of the common knowledge base found in the analyses of the entities. The values depend on the scales of each analysis.</p>
+                        </div>
+
+                        <div class="campaign-chart-cell">
+                            <div class="campaign-chart">
+                                <div layout="row" layout-align="start center">
+                                    <h3 class="md-subhead" flex translate>The first 10</h3>
+                                    <md-button class="md-icon-button" aria-label="{{ 'Export (PNG)' | translate }}" ng-click="exportChart('chart-' + tab.key, tab.key)">
+                                        <md-tooltip>{{ 'Export (PNG)' | translate }}</md-tooltip>
+                                        <md-icon class="md-warn">file_download</md-icon>
+                                    </md-button>
+                                </div>
+                                <div class="campaign-chart-canvas" ng-style="chartHeight(10 * filters.entities.length)">
+                                    <canvas id="chart-{{ tab.key }}" monarc-chart="knowledgeBaseComparison[tab.key].chart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="campaign-chart-cell">
+                            <md-table-container class="campaign-chart">
+                                <h3 class="md-subhead" translate>Value by entity</h3>
+                                <table class="inter-entity-table">
+                                    <thead>
+                                    <tr>
+                                        <th>{{ tab.column | translate }}</th>
+                                        <th class="numeric"><span translate>Entities concerned</span></th>
+                                        <th class="numeric" ng-repeat="entity in filters.entities">{{ entity }}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="row in knowledgeBaseComparison[tab.key].rows">
+                                        <td class="inter-entity-category">{{ row.label }}</td>
+                                        <td class="numeric">{{ row.entitiesCount }} / {{ filters.entities.length }}</td>
+                                        <td class="numeric" ng-repeat="value in row.values track by $index">{{ value !== null ? value : '-' }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </md-table-container>
+                        </div>
+                    </div>
+                </md-content>
+            </md-tab>
+
+            <md-tab label="{{ 'Evolution' | translate }}">
+                <md-content class="md-padding campaign-stats">
+                    <md-progress-linear ng-if="isEvolutionLoading" md-mode="indeterminate"></md-progress-linear>
+                    <p class="campaign-chart-empty" ng-if="evolution && filters.entities.length === 0" translate>No entity selected.</p>
+
+                    <div ng-if="evolution && filters.entities.length > 0">
+                        <div class="inter-entity-filters">
+                            <div layout="row" layout-xs="column" layout-align="start center">
+                                <h3 class="md-title md-padding-right" translate>Evolution over time</h3>
+                                <md-input-container class="md-block md-padding-right" flex-gt-sm="20" flex="100">
+                                    <label translate>Period</label>
+                                    <md-select ng-model="filters.evolutionPeriod" ng-change="loadEvolution()" ng-disabled="isEvolutionLoading">
+                                        <md-option value="1m">{{ '1 month' | translate }}</md-option>
+                                        <md-option value="3m">{{ '3 months' | translate }}</md-option>
+                                        <md-option value="6m">{{ '6 months' | translate }}</md-option>
+                                        <md-option value="12m">{{ '1 year' | translate }}</md-option>
+                                    </md-select>
+                                </md-input-container>
+                                <md-input-container class="md-block md-padding-right" flex-gt-sm="30" flex="100">
+                                    <label translate>Indicator</label>
+                                    <md-select ng-model="filters.evolutionIndicator" ng-change="updateEvolution()">
+                                        <md-option value="highCurrent">{{ 'Share of high current risks' | translate }}</md-option>
+                                        <md-option value="highResidual">{{ 'Share of high residual risks' | translate }}</md-option>
+                                        <md-option value="compliance" ng-disabled="evolution.referentials.length === 0">{{ 'Compliance' | translate }}</md-option>
+                                    </md-select>
+                                </md-input-container>
+                                <md-input-container class="md-block" flex-gt-sm="30" flex="100" ng-if="filters.evolutionIndicator === 'compliance'">
+                                    <label translate>Referential</label>
+                                    <md-select ng-model="filters.evolutionReferentialUuid" ng-change="updateEvolution()">
+                                        <md-option ng-repeat="referential in evolution.referentials" ng-value="referential.uuid">{{ referential.label }}</md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
+                            <p class="md-caption" ng-switch="filters.evolutionPeriod">
+                                <span ng-switch-when="1m" translate>Value recorded each day over the last month.</span>
+                                <span ng-switch-when="3m" translate>Value recorded each week over the last 3 months.</span>
+                                <span ng-switch-when="6m" translate>Value recorded every 2 weeks over the last 6 months.</span>
+                                <span ng-switch-when="12m" translate>Value recorded each month over the last year.</span>
+                            </p>
+                        </div>
+
+                        <div class="campaign-chart-cell">
+                            <div class="campaign-chart">
+                                <div class="campaign-chart-canvas" style="height: 360px"><canvas monarc-chart="charts.evolution"></canvas></div>
+                            </div>
+                        </div>
+                    </div>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+    </div>
+</md-card>

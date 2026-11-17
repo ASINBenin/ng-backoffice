@@ -106,6 +106,14 @@ angular
                 ncyBreadcrumb: {
                     label: '{{"Reports outside any campaign"|translate}}'
                 }
+            }).state('main.admin.statistics', {
+                url: "/statistics",
+                views: {
+                    "main@main": {templateUrl: "views/inter_entity_statistics.admin.html"}
+                },
+                ncyBreadcrumb: {
+                    label: '{{"Statistics"|translate}}'
+                }
             }).state('main.admin.logs', {
                 url: "/logs",
                 views: {
