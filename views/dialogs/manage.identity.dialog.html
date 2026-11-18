@@ -1,0 +1,77 @@
+<md-dialog md-theme="light" class="dialog-width">
+    <form name="identityForm" ng-submit="saveIdentity()">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2 translate>Manage SSO accounts</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="close()">
+                    <md-icon aria-label="{{ 'Close dialog' | translate }}">close</md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content" layout="column">
+                <p>{{ targetUser.firstname }} {{ targetUser.lastname }} ({{ targetUser.email }})</p>
+
+                <table class="md-html-table" ng-if="linkedIdentities.length > 0">
+                    <thead>
+                    <tr>
+                        <th translate>Provider</th>
+                        <th translate>Identifier</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="identity in linkedIdentities">
+                        <td>{{ identity.providerName }}</td>
+                        <td>{{ identity.providerIdentifier }}</td>
+                        <td>
+                            <md-button class="md-icon-button" ng-click="unlinkIdentity(identity)" ng-disabled="isSaving" aria-label="{{ 'Unlink' | translate }}">
+                                <md-icon>link_off</md-icon>
+                            </md-button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <p ng-if="linkedIdentities.length === 0 && !isLoading" translate>
+                    No SSO account is currently linked to this user.
+                </p>
+
+                <div ng-if="availableProviders.length > 0" layout="column">
+                    <md-input-container class="md-block" flex>
+                        <label translate>SSO provider</label>
+                        <md-icon>vpn_key</md-icon>
+                        <md-select ng-model="formData.providerCode" name="providerCode" required>
+                            <md-option ng-repeat="provider in availableProviders" ng-value="provider.code">
+                                {{ provider.name }}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+
+                    <md-input-container class="md-block" flex>
+                        <label translate>SSO identifier</label>
+                        <md-icon>badge</md-icon>
+                        <input ng-model="formData.providerIdentifier" name="providerIdentifier" required>
+                        <div ng-messages="identityForm.providerIdentifier.$error" role="alert">
+                            <div ng-message="required">{{ 'You must enter the SSO identifier' | translate }}</div>
+                        </div>
+                    </md-input-container>
+                </div>
+
+                <p ng-if="availableProviders.length === 0 && !isLoading" translate>
+                    All active SSO providers are already linked to this user.
+                </p>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="close()">
+                {{ 'Close' | translate }}
+            </md-button>
+            <md-button ng-if="availableProviders.length > 0" ng-click="saveIdentity()" ng-disabled="identityForm.$error.required || isSaving" type="submit" class="md-accent md-hue-3">
+                {{ 'Add' | translate }}
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

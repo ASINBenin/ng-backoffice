@@ -141,6 +141,20 @@
                 );
             });
         };
+
+        $scope.manageUserIdentity = function (ev, user) {
+            $mdDialog.show({
+                controller: ['$scope', '$mdDialog', 'toastr', 'gettextCatalog', 'AdminUsersService', 'targetUser',
+                    ManageUserIdentityDialogCtrl],
+                templateUrl: 'views/dialogs/manage.identity.dialog.html',
+                targetEvent: ev,
+                clickOutsideToClose: false,
+                fullscreen: $mdMedia('sm') || $mdMedia('xs'),
+                locals: {
+                    'targetUser': user
+                }
+            });
+        };
     }
 
 
@@ -165,6 +179,73 @@
 
         $scope.create = function() {
             $mdDialog.hide($scope.user);
+        };
+    }
+
+    function ManageUserIdentityDialogCtrl($scope, $mdDialog, toastr, gettextCatalog, AdminUsersService, targetUser) {
+        $scope.targetUser = targetUser;
+        $scope.providers = [];
+        $scope.linkedIdentities = [];
+        $scope.availableProviders = [];
+        $scope.formData = {providerCode: null, providerIdentifier: ''};
+        $scope.isLoading = true;
+        $scope.isSaving = false;
+
+        function updateAvailableProviders() {
+            var linkedCodes = $scope.linkedIdentities.map(function (identity) {
+                return identity.providerCode;
+            });
+            $scope.availableProviders = $scope.providers.filter(function (provider) {
+                return linkedCodes.indexOf(provider.code) === -1;
+            });
+            $scope.formData.providerCode = $scope.availableProviders.length ? $scope.availableProviders[0].code : null;
+            $scope.formData.providerIdentifier = '';
+        }
+
+        function loadIdentities() {
+            return AdminUsersService.getUserIdentities(targetUser.id).then(function (identities) {
+                $scope.linkedIdentities = identities;
+                updateAvailableProviders();
+            });
+        }
+
+        AdminUsersService.getIdentityProviders().then(function (providers) {
+            $scope.providers = providers;
+            updateAvailableProviders();
+        });
+
+        loadIdentities().finally(function () {
+            $scope.isLoading = false;
+        });
+
+        $scope.close = function () {
+            $mdDialog.hide();
+        };
+
+        $scope.saveIdentity = function () {
+            $scope.isSaving = true;
+            AdminUsersService.saveUserIdentity(targetUser.id, $scope.formData).then(function () {
+                toastr.success(gettextCatalog.getString('The SSO account has been linked successfully.'));
+                return loadIdentities();
+            }, function (error) {
+                toastr.error(error.data && error.data.error
+                    ? error.data.error
+                    : gettextCatalog.getString('An error occurred while saving.'));
+            }).finally(function () {
+                $scope.isSaving = false;
+            });
+        };
+
+        $scope.unlinkIdentity = function (identity) {
+            $scope.isSaving = true;
+            AdminUsersService.deleteUserIdentity(targetUser.id, identity.id).then(function () {
+                toastr.success(gettextCatalog.getString('The SSO account has been unlinked successfully.'));
+                return loadIdentities();
+            }, function () {
+                toastr.error(gettextCatalog.getString('An error occurred while unlinking the SSO account.'));
+            }).finally(function () {
+                $scope.isSaving = false;
+            });
         };
     }
 

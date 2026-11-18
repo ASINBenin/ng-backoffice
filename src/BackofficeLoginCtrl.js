@@ -12,6 +12,7 @@
   */
   function BackofficeLoginCtrl($scope, $state, $http, toastr, gettextCatalog, gettext, UserService) {
     $scope.isLoggingIn = false;
+    $scope.ssoProviders = [];
     $scope.pwForgotMode = false;
     $scope.twoFASetUpMode = false;
     $scope.user = {
@@ -82,6 +83,27 @@
         }
       );
     }
+
+    $scope.loginSSO = function (providerCode) {
+      $scope.isLoggingIn = true;
+      window.location.href = 'auth/sso/redirect?provider=' + encodeURIComponent(providerCode);
+    };
+
+    /* Colors of a provider button, from its configuration (checked by the API) */
+    $scope.ssoButtonStyle = function (provider) {
+      var display = provider.display || {};
+      var background = display.background || '#003366';
+
+      return {
+        'background-color': background,
+        color: display.color || '#ffffff',
+        border: '1px solid ' + (display.border || background)
+      };
+    };
+
+    $http.get('api/identity-providers').then(function (response) {
+      $scope.ssoProviders = response.data || [];
+    });
   }
 
 })();

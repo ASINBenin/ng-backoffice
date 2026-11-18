@@ -49,6 +49,18 @@
                 <md-progress-circular ng-show="isLoggingIn" md-mode="indeterminate" md-diameter="48"></md-progress-circular>
                 <input type="submit" style="position: absolute; left: -99999px">
             </div>
+
+            <div class="sso-separator" ng-hide="isLoggingIn || twoFAMode || recoveryCodeMode || ssoProviders.length === 0">
+                <span>{{ 'Or' | translate }}</span>
+            </div>
+
+            <div layout="row" layout-align="center center" class="sso-button-row" ng-repeat="provider in ssoProviders" ng-hide="isLoggingIn || twoFAMode || recoveryCodeMode">
+                <md-button ng-click="loginSSO(provider.code)" class="md-raised sso-button" ng-style="ssoButtonStyle(provider)">
+                    <img ng-if="provider.display.iconUrl" ng-src="{{ provider.display.iconUrl }}" class="sso-button-icon" alt="">
+                    <md-icon ng-if="!provider.display.iconUrl" class="sso-button-icon" ng-style="{color: ssoButtonStyle(provider).color}">{{ provider.display.icon || 'verified_user' }}</md-icon>
+                    <span class="sso-button-label">{{ provider.display.label || provider.name }}</span>
+                </md-button>
+            </div>
         </form>
     </div>
 

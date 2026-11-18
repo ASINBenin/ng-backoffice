@@ -6454,3 +6454,54 @@ msgstr "Éléments de la base de connaissances commune présents dans les analys
 
 msgid "Maximum risk"
 msgstr "Risque maximal"
+
+msgid "Or"
+msgstr "Ou"
+
+msgid "Login in progress…"
+msgstr "Connexion en cours…"
+
+msgid "The SSO login could not be validated."
+msgstr "La connexion SSO n'a pas pu être validée."
+
+msgid "Manage SSO account"
+msgstr "Gérer les comptes SSO"
+
+msgid "Manage SSO accounts"
+msgstr "Gérer les comptes SSO"
+
+msgid "Provider"
+msgstr "Fournisseur"
+
+msgid "Identifier"
+msgstr "Identifiant"
+
+msgid "Unlink"
+msgstr "Délier"
+
+msgid "No SSO account is currently linked to this user."
+msgstr "Aucun compte SSO n'est actuellement lié à cet utilisateur."
+
+msgid "SSO provider"
+msgstr "Fournisseur SSO"
+
+msgid "SSO identifier"
+msgstr "Identifiant SSO"
+
+msgid "You must enter the SSO identifier"
+msgstr "Vous devez renseigner l'identifiant SSO"
+
+msgid "All active SSO providers are already linked to this user."
+msgstr "Tous les fournisseurs SSO actifs sont déjà liés à cet utilisateur."
+
+msgid "The SSO account has been linked successfully."
+msgstr "Le compte SSO a été lié avec succès."
+
+msgid "An error occurred while saving."
+msgstr "Une erreur est survenue lors de l'enregistrement."
+
+msgid "The SSO account has been unlinked successfully."
+msgstr "Le compte SSO a été délié avec succès."
+
+msgid "An error occurred while unlinking the SSO account."
+msgstr "Une erreur est survenue lors de la suppression de la liaison SSO."

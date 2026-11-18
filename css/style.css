@@ -309,3 +309,53 @@ table.md-table tbody.md-body > tr.md-row.appreciation-comment-row > td.md-cell {
   padding: 4px 24px 12px;
   background-color: #fafafa;
 }
+
+/* Connexion SSO : séparateur et bouton d'un fournisseur, couleurs venant de sa configuration */
+.sso-separator {
+  display: flex;
+  align-items: center;
+  margin: 14px 0;
+  color: #888888;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+.sso-separator::before,
+.sso-separator::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #dddddd;
+}
+.sso-separator span {
+  padding: 0 10px;
+}
+.sso-button-row {
+  margin: 6px;
+}
+.sso-button.md-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 75%;
+  min-height: 38px;
+  height: 38px;
+  margin: 0;
+  padding: 0 20px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: none;
+}
+.sso-button .sso-button-icon {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
+  margin: 0 8px 0 0;
+  font-size: 20px;
+  line-height: 20px;
+  object-fit: contain;
+}
+.sso-button-label {
+  line-height: 1;
+}

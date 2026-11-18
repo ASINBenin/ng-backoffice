@@ -42,6 +42,11 @@ angular
                 views: {
                     "main": {templateUrl: "views/passwordforgotten.html"}
                 }
+            }).state('ssoLanding', {
+                url: "/sso-landing",
+                views: {
+                    "main": {templateUrl: "views/sso.landing.html"}
+                }
             }).state('main', {
                 url: "/backoffice",
                 redirectTo: 'main.kb_mgmt.info_risk',
@@ -292,7 +297,7 @@ angular
                             }
                         } else if (response.status === 401) {
                             const state = $injector.get('$state');
-                            if (state.current.name !== 'passwordforgotten' && state.current.name !== '') {
+                            if (state.current.name !== 'passwordforgotten' && state.current.name !== 'ssoLanding' && state.current.name !== '') {
                                 state.transitionTo('login');
                             }
                         } else if (response.status === 403) {

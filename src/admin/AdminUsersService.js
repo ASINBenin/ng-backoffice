@@ -2,9 +2,9 @@
 
     angular
         .module('BackofficeApp')
-        .factory('AdminUsersService', ['$resource', AdminUsersService]);
+        .factory('AdminUsersService', ['$resource', '$http', AdminUsersService]);
 
-    function AdminUsersService($resource) {
+    function AdminUsersService($resource, $http) {
         var self = this;
 
         self.UserResource = $resource('api/admin/users/:userId', {userId: '@id'},
@@ -44,13 +44,33 @@
             self.UserResource.patch({userId: id}, params, success, error);
         }
 
+        var getIdentityProviders = function () {
+            return $http.get('api/identity-providers').then(function (response) { return response.data; });
+        };
+
+        var getUserIdentities = function (userId) {
+            return $http.get('api/users/' + userId + '/identity').then(function (response) { return response.data; });
+        };
+
+        var saveUserIdentity = function (userId, data) {
+            return $http.post('api/users/' + userId + '/identity', data);
+        };
+
+        var deleteUserIdentity = function (userId, identityId) {
+            return $http.delete('api/users/' + userId + '/identity/' + identityId);
+        };
+
         return {
             getUsers: getUsers,
             getUser: getUser,
             createUser: createUser,
             deleteUser: deleteUser,
             updateUser: updateUser,
-            patchUser: patchUser
+            patchUser: patchUser,
+            getIdentityProviders: getIdentityProviders,
+            getUserIdentities: getUserIdentities,
+            saveUserIdentity: saveUserIdentity,
+            deleteUserIdentity: deleteUserIdentity
         };
     }
 

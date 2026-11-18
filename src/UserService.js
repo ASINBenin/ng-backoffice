@@ -72,6 +72,25 @@
                 )
             };
 
+            var applyLanguage = function (language) {
+                self.dataLanguage = ConfigService.getDataLanguageIndex(language);
+                self.uiLanguage = localStorageService.get('uiLanguage');
+                if (self.uiLanguage === null) {
+                    self.uiLanguage = ConfigService.getLanguage(language).code;
+                }
+                localStorageService.set('uiLanguage', self.uiLanguage);
+                localStorageService.set('dataLanguage', self.dataLanguage);
+
+                if (language === undefined || language === null) {
+                    gettextCatalog.setCurrentLanguage('en');
+                    $rootScope.uiLanguage = 'gb';
+                } else {
+                    var uiLanguage = ConfigService.getUiLanguage(self.uiLanguage);
+                    gettextCatalog.setCurrentLanguage(uiLanguage.code);
+                    $rootScope.uiLanguage = uiLanguage.flag;
+                }
+            };
+
             /**
              * Authenticates the user against the backend authentication API
              * @param login The username
@@ -106,26 +125,10 @@
                             self.authenticated = true;
                             self.token = data.data.token;
                             self.uid = data.data.uid;
-                            self.dataLanguage = ConfigService.getDataLanguageIndex(data.data.language);
-                            self.uiLanguage = localStorageService.get('uiLanguage');
-                            if (self.uiLanguage === null) {
-                                self.uiLanguage = ConfigService.getLanguage(data.data.language).code;
-                            }
-
                             localStorageService.set('auth_token', self.token);
                             localStorageService.set('uid', self.uid);
                             localStorageService.set('permission_groups', JSON.stringify([]));
-                            localStorageService.set('uiLanguage', self.uiLanguage);
-                            localStorageService.set('dataLanguage', self.dataLanguage);
-
-                            if (data.data.language === undefined || data.data.language === null) {
-                                gettextCatalog.setCurrentLanguage('en');
-                                $rootScope.uiLanguage = 'gb';
-                            } else {
-                                var uiLanguage = ConfigService.getUiLanguage(self.uiLanguage);
-                                gettextCatalog.setCurrentLanguage(uiLanguage.code);
-                                $rootScope.uiLanguage = uiLanguage.flag;
-                            }
+                            applyLanguage(data.data.language);
 
                             updateRoles(promise);
                         } else {
@@ -154,13 +157,44 @@
                 return promise.promise;
             };
 
+            // Connexion SSO : jeton déjà émis par le callback du backend
+            var authenticateWithToken = function (token, uid) {
+                var promise = $q.defer();
+                self.token = token;
+                self.uid = uid;
+                localStorageService.set('auth_token', token);
+                localStorageService.set('uid', uid);
+                localStorageService.set('permission_groups', JSON.stringify([]));
+
+                $http.get('api/user/profile').then(function (response) {
+                    applyLanguage(response.data.language);
+                    updateRoles(promise);
+                }, function () {
+                    promise.reject();
+                });
+
+                return promise.promise.then(function () {
+                    self.authenticated = true;
+                }, function () {
+                    self.authenticated = false;
+                    self.token = null;
+                    self.uid = null;
+                    localStorageService.set('auth_token', null);
+                    localStorageService.set('uid', null);
+                    return $q.reject();
+                });
+            };
+
             /**
              * Clears the active authentication and revokes the active authentication token
              * @returns Promise
              */
             var logout = function () {
                 var promise = $q.defer();
-                $http.delete('auth').then(function (data) {
+                // Jetons Keycloak gardés en base : supprimés d'abord, sans bloquer la déconnexion
+                $http.delete('api/sso/session').catch(angular.noop).then(function () {
+                    return $http.delete('auth');
+                }).then(function (data) {
                     localStorageService.set('permission_groups', JSON.stringify([]));
                     localStorageService.set('auth_token', null);
                     localStorageService.set('uid', null);
@@ -233,6 +267,7 @@
             return {
                 reauthenticate: reauthenticate,
                 authenticate: authenticate,
+                authenticateWithToken: authenticateWithToken,
                 logout: logout,
                 getToken: getToken,
                 getUserId: getUserId,
