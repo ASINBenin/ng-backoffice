@@ -91,15 +91,15 @@
                 <tbody md-body>
                 <tr md-row ng-repeat="campaign in campaigns.items.campaigns">
                     <td md-cell>{{ campaign.label }}</td>
-                    <td md-cell>{{ campaign.model.label }}</td>
-                    <td md-cell>
+                    <td md-cell class="campaign-model-cell" title="{{ campaign.model.label }}">{{ campaign.model.label }}</td>
+                    <td md-cell class="campaign-nowrap-cell">
                         <span ng-if="campaign.status === 'draft'" translate>Draft</span>
                         <span ng-if="campaign.status === 'published'" translate>Published</span>
                         <span ng-if="campaign.status === 'closed'" translate>Closed</span>
                     </td>
-                    <td md-cell>{{ campaign.startDate | date:'shortDate' }}</td>
-                    <td md-cell>{{ campaign.responseDeadline | date:'shortDate' }}</td>
-                    <td md-cell>{{ campaign.endDate | date:'shortDate' }}</td>
+                    <td md-cell class="campaign-nowrap-cell">{{ campaign.startDate | date:'shortDate' }}</td>
+                    <td md-cell class="campaign-nowrap-cell">{{ campaign.responseDeadline | date:'shortDate' }}</td>
+                    <td md-cell class="campaign-nowrap-cell">{{ campaign.endDate | date:'shortDate' }}</td>
                     <td md-cell>{{ campaign.participants.length }}</td>
                     <td md-cell style="white-space: nowrap">
                         <md-button class="md-icon-button md-primary" ui-sref="main.admin.campaign({campaignId: campaign.id})" aria-label="{{ 'Open the campaign' | translate }}">

@@ -307,7 +307,49 @@ table.md-table tbody.md-body > tr.md-row.appreciation-comment-row {
 }
 table.md-table tbody.md-body > tr.md-row.appreciation-comment-row > td.md-cell {
   padding: 4px 24px 12px;
+}
+/* Commentaire repliable, bordé de la couleur de l'appréciation */
+.appreciation-bubble {
+  padding: 8px 12px;
+  border-left: 4px solid #9e9e9e;
+  border-radius: 0 4px 4px 0;
   background-color: #fafafa;
+}
+.appreciation-bubble-insufficient { border-left-color: #e53935; }
+.appreciation-bubble-to_improve { border-left-color: #fb8c00; }
+.appreciation-bubble-satisfactory { border-left-color: #7cb342; }
+.appreciation-bubble-very_satisfactory { border-left-color: #2e7d32; }
+.appreciation-bubble-title {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: left;
+  color: rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+}
+.appreciation-bubble-title md-icon {
+  margin: 0 4px 0 0;
+  color: inherit;
+}
+.appreciation-bubble-title + .appreciation-comment {
+  margin-top: 4px;
+}
+/* Liste des campagnes : un long nom de modèle ne doit pas écraser les autres colonnes */
+.campaign-model-cell {
+  max-width: 320px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.campaign-nowrap-cell {
+  white-space: nowrap;
 }
 
 /* Connexion SSO : séparateur et bouton d'un fournisseur, couleurs venant de sa configuration */
